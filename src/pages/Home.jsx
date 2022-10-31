@@ -1,6 +1,14 @@
+import Layout from "../components/Layout/Layout"
+import Seo from "../components/Seo/Seo"
+
+
 const Home = () => {
   return (
-    <div>Home</div>
+    <>
+      <Layout>
+        <div>Home</div>
+      </Layout>
+    </>
   )
 }
 export default Home
