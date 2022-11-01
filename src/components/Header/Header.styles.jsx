@@ -2,11 +2,15 @@ import { styled } from "@mui/material/styles"
 import { AppBar, Toolbar } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { Link } from "react-router-dom"
 
 
 
 export const GrAppBar = styled(AppBar)(({ theme }) => ({
     padding: theme.spacing(2, 5, 2),
+    [theme.breakpoints.down("md")]: {
+        padding: theme.spacing(0, 0, 0),
+    }
 }))
 
 export const GrToolBar = styled(Toolbar)(({ theme }) => ({
@@ -30,3 +34,8 @@ export const GrImg = styled("img")(({ theme }) => ({
     },
 }))
 
+
+export const GrLink = styled(Link)({
+    textDecoration: "none",
+    color: "#000"
+})

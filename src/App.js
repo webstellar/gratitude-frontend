@@ -22,20 +22,18 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <div>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/gratitude" element={<Gratitude />} />
-            <Route path="/heroeslist" element={<HeroesList />} />
-            <Route path="/hero" element={<Hero />} />
-            <Route path="/my-dashbaord" element={<UserDashboard />} />
-            <Route path="/my-admin" element={<AdminDashboard />} />
-            <Route path="/create-hero" element={<CreateHero />} />
-            <Route path="/give-gratitude" element={<GiveGratitude />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/gratitude" element={<Gratitude />} />
+          <Route path="/heroeslist" element={<HeroesList />} />
+          <Route path="/hero" element={<Hero />} />
+          <Route path="/my-dashbaord" element={<UserDashboard />} />
+          <Route path="/my-admin" element={<AdminDashboard />} />
+          <Route path="/create-hero" element={<CreateHero />} />
+          <Route path="/give-gratitude" element={<GiveGratitude />} />
+        </Routes>
       </Router>
     </ThemeProvider>
   );
