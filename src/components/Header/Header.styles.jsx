@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 
 
 export const GrAppBar = styled(AppBar)(({ theme }) => ({
-    padding: theme.spacing(2, 5, 2),
+    padding: theme.spacing(2, 0, 2),
     [theme.breakpoints.down("md")]: {
         padding: theme.spacing(0, 0, 0),
     }

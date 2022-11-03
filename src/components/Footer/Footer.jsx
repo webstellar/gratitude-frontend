@@ -69,6 +69,7 @@ const Footer = () => {
                 <Container maxWidth="xl">
                     <Grid container>
                         <Grid
+                            item
                             container
                             direction="row"
                             justifyContent="flex-start"
@@ -93,6 +94,7 @@ const Footer = () => {
 
 
                         <Grid
+                            item
                             xs={12} sm={12} md={4} spacing={2}
                             container
                             direction="row"
@@ -122,6 +124,7 @@ const Footer = () => {
 
                     <Grid container>
                         <Grid
+                            item
                             container
                             direction={isMobile ? "column" : "row"}
                             justifyContent="flex-start"
@@ -140,6 +143,7 @@ const Footer = () => {
                             ))}
                         </Grid>
                         <Grid
+                            item
                             container
                             direction={isMobile ? "column" : "row"}
                             justifyContent={isMobile ? "flex-start" : "flex-end"}
@@ -161,6 +165,7 @@ const Footer = () => {
 
                     <Grid container>
                         <Grid
+                            item
                             container
                             direction="row"
                             justifyContent={isMobile ? "flex-start" : "flex-end"}
