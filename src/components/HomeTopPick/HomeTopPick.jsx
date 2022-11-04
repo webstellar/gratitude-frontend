@@ -6,19 +6,18 @@ import {
     CardMedia,
     Typography
 } from "@mui/material"
-import { GrStoriesTypography } from "./HomeRecentStories.styles"
+import { GrStoriesTypography, GrHeroTypography, GrGiverTypography, GrLink } from "./HomeTopPick.styles"
 import MenuIcon from '@mui/icons-material/Menu';
 
-const HomeRecentStories = ({ gratitude }) => {
+const HomeTopPick = ({ gratitude }) => {
     return (
         <>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={3}>
                 <CardActionArea component="a" href="#">
-                    <Card sx={{ display: 'flex' }}>
-
+                    <Card sx={{ display: 'block' }}>
                         <CardMedia
                             component="img"
-                            sx={{ width: 160, display: { xs: 'block', sm: 'block' } }}
+                            sx={{ width: "100%" }}
                             image={gratitude.image}
                             alt={gratitude.title}
                         />
@@ -26,9 +25,20 @@ const HomeRecentStories = ({ gratitude }) => {
                             <Typography variant="subtitle1">
                                 {gratitude?.tag[0]}
                             </Typography>
+
                             <GrStoriesTypography variant="h6" component="h6" gutterBottom>
                                 {gratitude.title}
                             </GrStoriesTypography>
+
+                            <GrGiverTypography variant="caption" color="grey.500">
+                                written by {gratitude.giver}
+                            </GrGiverTypography>
+
+                            <GrLink>
+                                <GrHeroTypography variant="h6" component="h6" gutterBottom>
+                                    for {gratitude.hero}
+                                </GrHeroTypography>
+                            </GrLink>
 
                             <div style={{
                                 display: 'flex',
@@ -48,4 +58,4 @@ const HomeRecentStories = ({ gratitude }) => {
     )
 }
 
-export default HomeRecentStories
+export default HomeTopPick

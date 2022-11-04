@@ -1,88 +1,130 @@
-import { Container, Grid, Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
-import { GrBox, GrTypography, GrCTypography, GrLink } from "./HomeRecentTitle.styles"
+import { useState } from "react";
+import { Container, Grid, IconButton } from "@mui/material"
+import { GrBox, GrTypography, GrCTypography, GrLink, GrDiv } from "./HomeRecentTitle.styles"
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 import HomeRecentStories from "../HomeRecentStories/HomeRecentStories"
-import gratitudeImage from "../../images/dummy_post.webp"
+import HomeTopPick from "../HomeTopPick/HomeTopPick"
+import { gratitudes } from "../../Data/GratitudeDummy"
 
 
 const HomeRecentTitle = ({ post }) => {
-    const gratitudes = [
-        {
-            "id": 1,
-            "title": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...",
-            "image": gratitudeImage,
-            "date": "Nov 12",
-            "tag": [
-                "Consistent helper",
-                "Giver"
-            ]
-        },
-        {
-            "id": 2,
-            "title": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...",
-            "image": gratitudeImage,
-            "date": "Nov 12",
-            "tag": [
-                "Consistent helper",
-                "Giver"
-            ]
-        },
-        {
-            "id": 3,
-            "title": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...",
-            "image": gratitudeImage,
-            "date": "Nov 12",
-            "tag": [
-                "Consistent helper",
-                "Giver"
-            ]
-        },
-        {
-            "id": 4,
-            "title": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...",
-            "image": gratitudeImage,
-            "date": "Nov 12",
-            "tag": [
-                "Consistent helper",
-                "Giver"
-            ]
-        }
-    ]
 
+
+    const [current, setCurrent] = useState(0)
+    const length = gratitudes.length
+
+
+    const nextSlide = () => {
+        setCurrent(current === length - 1 ? 0 : current + 1)
+    }
+
+    const prevSlide = () => {
+        setCurrent(current === 0 ? length - 1 : current - 1)
+    }
 
     return (
-        <GrBox sx={{ flexGrow: 1 }}>
-            <Container maxWidth="xl">
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center" >
-                    <Grid item md={8}>
-                        <GrTypography omponent="p" variant="h2" color="inherit" gutterBottom>
-                            Your recent stories, Peter
-                        </GrTypography>
-                    </Grid>
+        <>
+            <GrBox sx={{ flexGrow: 1 }}>
+                <Container maxWidth="xl">
                     <Grid
-                        item
-                        md={4}>
-                        <GrLink>
-                            <GrCTypography component="p" variant="p" color="inherit" gutterBottom>My collection
-                            </GrCTypography>
-                        </GrLink>
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center" >
+                        <Grid item md={8}>
+                            <GrTypography omponent="p" variant="h2" color="inherit" gutterBottom>
+                                Your recent stories, Peter
+                            </GrTypography>
+                        </Grid>
+                        <Grid
+                            item
+                            md={4}>
+                            <GrLink>
+                                <GrCTypography component="p" variant="p" color="inherit" gutterBottom>My collection
+                                </GrCTypography>
+                            </GrLink>
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Grid container
-                    spacing={4}>
-                    {
-                        gratitudes.map((gratitude) => (
-                            <HomeRecentStories key={gratitude.id} gratitude={gratitude} />
-                        ))
-                    }
-                </Grid>
+                    <GrDiv>
+                        <IconButton size="large" color="inherit" onClick={prevSlide}>
+                            <KeyboardArrowLeftIcon />
+                        </IconButton>
+                        <Grid container
+                            spacing={4}>
 
-            </Container>
-        </GrBox>
+                            {
+                                gratitudes.slice(1, 4).map((gratitude) => (
+                                    <HomeRecentStories key={gratitude.id} gratitude={gratitude} />
+                                ))
+                            }
+
+                        </Grid>
+                        <IconButton size="large" color="inherit" onClick={nextSlide}>
+                            <KeyboardArrowRightIcon />
+                        </IconButton>
+                    </GrDiv>
+
+                </Container>
+            </GrBox >
+            <GrBox sx={{ flexGrow: 1 }}>
+                <Container maxWidth="xl">
+                    <Grid
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center" >
+                        <Grid item md={8}>
+                            <GrTypography omponent="p" variant="h2" color="inherit" gutterBottom>
+                                Indulge in our top picks
+                            </GrTypography>
+                        </Grid>
+                    </Grid>
+                    <GrDiv>
+                        <Grid container
+                            spacing={4}>
+
+                            {
+                                gratitudes.map((gratitude) => (
+                                    <HomeTopPick key={gratitude.id} gratitude={gratitude} />
+                                ))
+                            }
+
+                        </Grid>
+                    </GrDiv>
+
+                </Container>
+            </GrBox >
+            <GrBox sx={{ flexGrow: 1 }}>
+                <Container maxWidth="xl">
+                    <Grid
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center" >
+                        <Grid item md={8}>
+                            <GrTypography omponent="p" variant="h2" color="inherit" gutterBottom>
+                                Indulge in our latest stories
+                            </GrTypography>
+                        </Grid>
+                    </Grid>
+                    <GrDiv>
+                        <Grid container
+                            spacing={4}>
+
+                            {
+                                gratitudes.slice(0, 4).map((gratitude) => (
+                                    <HomeTopPick key={gratitude.id} gratitude={gratitude} />
+                                ))
+                            }
+
+                        </Grid>
+                    </GrDiv>
+
+                </Container>
+            </GrBox >
+        </>
     )
 }
 

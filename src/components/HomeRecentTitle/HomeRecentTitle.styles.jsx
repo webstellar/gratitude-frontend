@@ -37,3 +37,14 @@ export const GrLink = styled(Link)({
     color: "#F6430A",
     cursor: "pointer"
 })
+
+export const GrDiv = styled("div")({
+    marginTop: "2rem",
+    marginBottom: "1rem",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+})
+
+
+
