@@ -6,10 +6,10 @@ import {
     CardMedia,
     Typography
 } from "@mui/material"
-import { GrStoriesTypography } from "./HomeRecentStories.styles"
+import { GrStoriesTypography } from "./GratitudeCard.styles"
 import MenuIcon from '@mui/icons-material/Menu';
 
-const HomeRecentStories = ({ gratitude }) => {
+const GratitudeCard = ({ gratitude }) => {
     return (
         <>
             <Grid item xs={12} md={4}>
@@ -48,4 +48,4 @@ const HomeRecentStories = ({ gratitude }) => {
     )
 }
 
-export default HomeRecentStories
+export default GratitudeCard

@@ -4,12 +4,11 @@ import { GrBox, GrTypography, GrCTypography, GrLink, GrDiv } from "./HomeRecentT
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-import HomeRecentStories from "../HomeRecentStories/HomeRecentStories"
-import HomeTopPick from "../HomeTopPick/HomeTopPick"
-import { gratitudes } from "../../Data/GratitudeDummy"
+import GratitudeCard from "../GratitudeCard/GratitudeCard"
+import GratitudeCardBig from "../GratitudeCardBig/GratitudeCardBig"
+import { gratitudes } from "../../data/GratitudeDummy"
 
-
-const HomeRecentTitle = ({ post }) => {
+const HomeRecentTitle = () => {
 
 
     const [current, setCurrent] = useState(0)
@@ -56,7 +55,7 @@ const HomeRecentTitle = ({ post }) => {
 
                             {
                                 gratitudes.slice(1, 4).map((gratitude) => (
-                                    <HomeRecentStories key={gratitude.id} gratitude={gratitude} />
+                                    <GratitudeCard key={gratitude.id} gratitude={gratitude} />
                                 ))
                             }
 
@@ -87,7 +86,7 @@ const HomeRecentTitle = ({ post }) => {
 
                             {
                                 gratitudes.map((gratitude) => (
-                                    <HomeTopPick key={gratitude.id} gratitude={gratitude} />
+                                    <GratitudeCardBig key={gratitude.id} gratitude={gratitude} />
                                 ))
                             }
 
@@ -115,7 +114,7 @@ const HomeRecentTitle = ({ post }) => {
 
                             {
                                 gratitudes.slice(0, 4).map((gratitude) => (
-                                    <HomeTopPick key={gratitude.id} gratitude={gratitude} />
+                                    <GratitudeCardBig key={gratitude.id} gratitude={gratitude} />
                                 ))
                             }
 
@@ -123,7 +122,7 @@ const HomeRecentTitle = ({ post }) => {
                     </GrDiv>
 
                 </Container>
-            </GrBox >
+            </GrBox>
         </>
     )
 }

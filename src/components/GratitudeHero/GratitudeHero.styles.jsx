@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles"
-import { Paper, Typography, Box } from "@mui/material"
+import { Paper, Typography, Box, Grid } from "@mui/material"
 
 export const GrPaper = styled(Paper)({
     position: 'relative',
@@ -26,7 +26,7 @@ export const GrTypography = styled(Typography)(({ theme }) => ({
     fontWeight: "600",
     color: "grey.900",
     [theme.breakpoints.down("md")]: {
-        fontSize: "1.8rem",
+        fontSize: "1.5rem",
         fontWeight: "600",
     }
 }))
@@ -42,3 +42,22 @@ export const GrBox = styled(Box)(({ theme }) => ({
         fontWeight: "600",
     }
 }))
+
+export const GrHeroBox = styled(Box)(({ theme }) => ({
+    position: 'relative',
+    backgroundColor: 'grey.800',
+    color: '#fff',
+    mb: 4,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+}))
+
+
+export const GrGrid = styled(Grid)(({ theme }) => ({
+    padding: theme.spacing(3, 0, 3),
+    [theme.breakpoints.down("md")]: {
+        padding: theme.spacing(2, 0, 2),
+    }
+}))
+

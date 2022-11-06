@@ -11,10 +11,16 @@ import UserDashboard from "./pages/UserDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import CreateHero from "./pages/CreateHero";
 import GiveGratitude from "./pages/GiveGratitude";
+import Writer from "./pages/Writer";
 
 const theme = createTheme({
   typography: {
     fontFamily: ["Josefin Sans"].join(","),
+  },
+  palette: {
+    secondary: {
+      main: "#F6430A",
+    },
   },
 });
 
@@ -33,6 +39,7 @@ function App() {
           <Route path="/my-admin" element={<AdminDashboard />} />
           <Route path="/create-hero" element={<CreateHero />} />
           <Route path="/give-gratitude" element={<GiveGratitude />} />
+          <Route path="/writer" element={<Writer />} />
         </Routes>
       </Router>
     </ThemeProvider>

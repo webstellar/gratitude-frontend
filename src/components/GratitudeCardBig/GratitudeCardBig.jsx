@@ -6,18 +6,19 @@ import {
     CardMedia,
     Typography
 } from "@mui/material"
-import { GrStoriesTypography, GrHeroTypography, GrGiverTypography, GrLink } from "./HomeTopPick.styles"
+import { GrStoriesTypography, GrHeroTypography, GrGiverTypography, GrLink } from "./GratitudeCardBig.styles"
 import MenuIcon from '@mui/icons-material/Menu';
 
-const HomeTopPick = ({ gratitude }) => {
+const GratitudeCardBig = ({ gratitude }) => {
+
     return (
         <>
             <Grid item xs={12} md={3}>
-                <CardActionArea component="a" href="#">
+                <CardActionArea component="a" href={gratitude.link}>
                     <Card sx={{ display: 'block' }}>
                         <CardMedia
                             component="img"
-                            sx={{ width: "100%" }}
+                            sx={{ width: "100%", height: 200 }}
                             image={gratitude.image}
                             alt={gratitude.title}
                         />
@@ -34,7 +35,7 @@ const HomeTopPick = ({ gratitude }) => {
                                 written by {gratitude.giver}
                             </GrGiverTypography>
 
-                            <GrLink>
+                            <GrLink to={gratitude.link}>
                                 <GrHeroTypography variant="h6" component="h6" gutterBottom>
                                     for {gratitude.hero}
                                 </GrHeroTypography>
@@ -58,4 +59,4 @@ const HomeTopPick = ({ gratitude }) => {
     )
 }
 
-export default HomeTopPick
+export default GratitudeCardBig

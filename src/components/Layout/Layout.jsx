@@ -3,7 +3,6 @@ import CookieConsent from "react-cookie-consent"
 import Header from "./../Header/Header"
 import Footer from "./../Footer/Footer"
 
-
 const Layout = ({ children }) => {
     return (
         <Fragment>

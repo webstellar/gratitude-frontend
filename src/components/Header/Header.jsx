@@ -13,7 +13,8 @@ import {
   useTheme,
   Menu,
   MenuItem,
-  Container
+  Container,
+  Modal
 } from "@mui/material";
 import BrandLogo from "../../images/black-gratitude.svg";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -21,6 +22,8 @@ import { useNavigate } from "react-router-dom";
 
 import MobileMenu from "../MobileMenu/MobileMenu";
 import SearchBar from "../SearchBar/SearchBar";
+import Login from "../AuthLogin/Login";
+import Register from "../AuthRegister/Register"
 
 const navItems = [
   {
@@ -45,13 +48,26 @@ const Header = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [anchorEl, setAnchorEl] = useState(null);
 
+
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [openRegister, setOpenRegister] = useState(false)
+
+  //Login Popup
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  //Register Popup
+  const handleOpenRegister = () => setOpenRegister(true);
+  const handleCloseRegister = () => setOpenRegister(false);
+
+  //hamburger menu
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const handleClose = () => {
+  const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
@@ -61,21 +77,65 @@ const Header = () => {
         <GrAppBar position="static" elevation={0} color="default" sx={{ bgcolor: 'background.paper' }}>
           <Container maxWidth="xl">
             <GrToolBar>
-              <Box sx={{ flexGrow: 1 }}>
+              <Box sx={{ flexGrow: 1 }} component="a" href="/">
                 <GrImg src={BrandLogo} alt="brand logo" />
               </Box>
 
               <div>
-                <IconButton size="large" disableRipple={true} color="inherit">
-                  <GrLink to="/login" style={{ textDecoration: "none" }}>
-                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                      LOGIN
-                    </Typography>
-                  </GrLink>
+
+                {/* Login Modal */}
+                <IconButton size="large" disableRipple={true} color="inherit" onClick={handleOpen}>
+                  <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                    LOGIN
+                  </Typography>
+
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    disableEscapeKeyDown={false}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Login />
+                  </Modal>
+                  {/* Login Modal */}
+
                 </IconButton>
                 {!isMobile &&
                   <SearchBar />
                 }
+
+                {!isMobile &&
+                  <IconButton
+                    size="large"
+                    disableRipple={true}
+                    color="inherit"
+                    onClick={handleOpenRegister}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{ fontWeight: "regular" }}
+                    >
+                      Give
+                    </Typography>
+                  </IconButton>
+                }
+
+                <Modal
+                  open={openRegister}
+                  onClose={handleCloseRegister}
+                  disableEscapeKeyDown={false}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Register />
+                </Modal>
+
+
+
+
+
+
                 {!isMobile &&
                   navItems.map((item) => (
                     <IconButton
@@ -116,7 +176,7 @@ const Header = () => {
                         horizontal: "right",
                       }}
                       open={Boolean(anchorEl)}
-                      onClose={handleClose}
+                      onClose={handleMenuClose}
                     >
                       <MenuItem onClick={() => navigate("/my-profile")}>
                         Profile
@@ -133,7 +193,7 @@ const Header = () => {
           </Container>
         </GrAppBar>
       </Box>
-    </div>
+    </div >
   );
 };
 export default Header;

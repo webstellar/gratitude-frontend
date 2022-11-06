@@ -24,7 +24,7 @@ export const GrHeroImage = styled("img")(({ theme }) => ({
 export const GrTypography = styled(Typography)(({ theme }) => ({
     lineHeight: "normal",
     fontWeight: "600",
-    color: "grey.900",
+    color: "#f6430a",
     [theme.breakpoints.down("md")]: {
         fontSize: "1.8rem",
         fontWeight: "600",
@@ -33,12 +33,23 @@ export const GrTypography = styled(Typography)(({ theme }) => ({
 
 export const GrBox = styled(Box)(({ theme }) => ({
     position: 'relative',
-    padding: theme.spacing(18, 0, 18),
+    padding: theme.spacing(20, 0, 9),
     pr: { md: 0 },
 
     [theme.breakpoints.down("md")]: {
-        padding: theme.spacing(8, 0, 8),
+        padding: theme.spacing(8, 0, 4),
         fontSize: "1.8rem",
         fontWeight: "600",
+    }
+}))
+
+export const GrParaBox = styled(Box)(({ theme }) => ({
+    position: 'relative',
+    padding: theme.spacing(4, 0, 4),
+    pr: { md: 0 },
+
+    [theme.breakpoints.down("md")]: {
+        padding: theme.spacing(2, 0, 2),
+
     }
 }))
