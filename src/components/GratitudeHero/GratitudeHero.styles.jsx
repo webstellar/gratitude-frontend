@@ -60,4 +60,3 @@ export const GrGrid = styled(Grid)(({ theme }) => ({
         padding: theme.spacing(2, 0, 2),
     }
 }))
-

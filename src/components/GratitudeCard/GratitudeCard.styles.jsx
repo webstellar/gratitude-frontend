@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles"
-import { Typography } from "@mui/material"
+import { Typography, Paper } from "@mui/material"
 
 
 export const GrStoriesTypography = styled(Typography)(({ theme }) => ({
@@ -11,3 +11,10 @@ export const GrStoriesTypography = styled(Typography)(({ theme }) => ({
         marginBottom: "0.5rem"
     }
 }))
+
+export const GrItem = styled(Paper)(({ theme }) => ({
+    backgroundColor: "rgba(255, 255, 255, 0)",
+    padding: theme.spacing(0),
+    textAlign: 'center',
+    color: "grey.900",
+}));

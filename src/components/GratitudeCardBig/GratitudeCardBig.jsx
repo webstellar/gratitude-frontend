@@ -4,57 +4,67 @@ import {
     CardActionArea,
     CardContent,
     CardMedia,
-    Typography
+    Typography,
+    Stack
 } from "@mui/material"
-import { GrStoriesTypography, GrHeroTypography, GrGiverTypography, GrLink } from "./GratitudeCardBig.styles"
+import { GrStoriesTypography, GrHeroTypography, GrGiverTypography, GrItem } from "./GratitudeCardBig.styles"
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from "react-router-dom";
 
 const GratitudeCardBig = ({ gratitude }) => {
 
     return (
         <>
             <Grid item xs={12} md={3}>
-                <CardActionArea component="a" href={gratitude.link}>
+                <CardActionArea component={Link} to={`/appreciation/${gratitude._id}`}>
                     <Card sx={{ display: 'block' }}>
                         <CardMedia
                             component="img"
                             sx={{ width: "100%", height: 200 }}
-                            image={gratitude.image}
-                            alt={gratitude.title}
+                            image={gratitude.profilePicture?.url}
+                            alt={gratitude.summary}
                         />
                         <CardContent sx={{ flex: 1 }}>
                             <Typography variant="subtitle1">
-                                {gratitude?.tag[0]}
+                                {gratitude?.tags[0]}
                             </Typography>
 
                             <GrStoriesTypography variant="h6" component="h6" gutterBottom>
-                                {gratitude.title}
+                                {gratitude.summary.substring(0, 40)}...
                             </GrStoriesTypography>
 
-                            <GrGiverTypography variant="caption" color="grey.500">
-                                written by {gratitude.giver}
+                            <GrGiverTypography
+                                variant="caption"
+                                color="grey.500">
+                                written by {gratitude?.user?.name}
                             </GrGiverTypography>
 
-                            <GrLink to={gratitude.link}>
-                                <GrHeroTypography variant="h6" component="h6" gutterBottom>
-                                    for {gratitude.hero}
-                                </GrHeroTypography>
-                            </GrLink>
+                            <GrHeroTypography variant="h6"
+                                component="h6"
+                                gutterBottom>
+                                for {gratitude?.hero?.name}
+                            </GrHeroTypography>
 
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                flexWrap: 'wrap',
-                            }}>
-                                <MenuIcon />
-                                <Typography variant="subtitle1" color="grey.900">
-                                    READ
-                                </Typography>
-                            </div>
+
+                            <Stack
+                                direction="row"
+                                justifyContent="flex-start"
+                                alignItems="center"
+                                spacing={0}
+                            >
+                                <GrItem elevation={0}>
+                                    <MenuIcon sx={{ color: "#000" }} />
+                                </GrItem>
+                                <GrItem elevation={0}>
+                                    <Typography variant="h6" component="h6" sx={{ color: "#000", textDecoration: "none" }}>
+                                        READ
+                                    </Typography>
+                                </GrItem>
+                            </Stack>
                         </CardContent>
                     </Card>
                 </CardActionArea>
-            </Grid>
+            </Grid >
         </>
     )
 }

@@ -14,11 +14,13 @@ import {
   Menu,
   MenuItem,
   Container,
-  Modal
+  CssBaseline
 } from "@mui/material";
 import BrandLogo from "../../images/black-gratitude.svg";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
+import Modal from 'react-modal';
+
 
 import MobileMenu from "../MobileMenu/MobileMenu";
 import SearchBar from "../SearchBar/SearchBar";
@@ -28,14 +30,6 @@ import Register from "../AuthRegister/Register"
 const navItems = [
   {
     id: 1,
-    name: "Give",
-    link: "/give-gratitude",
-    type: "text",
-    variant: "h6",
-    weight: "regular",
-  },
-  {
-    id: 2,
     name: "Our story",
     link: "/our-story",
     type: "text",
@@ -44,24 +38,47 @@ const navItems = [
   },
 ];
 
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    overflow: "unset",
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
+Modal.setAppElement(document.getElementById('header'));
+
 const Header = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
-  const [openRegister, setOpenRegister] = useState(false)
+  const [openR, setOpenR] = useState(false);
 
   //Login Popup
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => {
+    setOpen(true)
+  };
+
+  const handleClose = () => {
+    setOpen(false)
+  };
+
 
   //Register Popup
-  const handleOpenRegister = () => setOpenRegister(true);
-  const handleCloseRegister = () => setOpenRegister(false);
+  const handleROpen = () => {
+    setOpenR(true)
+  };
+
+  const handleRClose = () => {
+    setOpenR(false)
+  };
+
 
   //hamburger menu
   const handleMenu = (event) => {
@@ -73,6 +90,7 @@ const Header = () => {
 
   return (
     <div>
+      <CssBaseline />
       <Box sx={{ flexGrow: 1 }}>
         <GrAppBar position="static" elevation={0} color="default" sx={{ bgcolor: 'background.paper' }}>
           <Container maxWidth="xl">
@@ -82,21 +100,23 @@ const Header = () => {
               </Box>
 
               <div>
-
                 {/* Login Modal */}
                 <IconButton size="large" disableRipple={true} color="inherit" onClick={handleOpen}>
-                  <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold" }}
+                  >
                     LOGIN
                   </Typography>
 
                   <Modal
-                    open={open}
-                    onClose={handleClose}
-                    disableEscapeKeyDown={false}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
+                    isOpen={open}
+                    onRequestClose={handleClose}
+                    ariaHideApp={false}
+                    style={customStyles}
+                    contentLabel="Login"
                   >
-                    <Login />
+                    <Login handleClose={handleClose} />
                   </Modal>
                   {/* Login Modal */}
 
@@ -110,7 +130,7 @@ const Header = () => {
                     size="large"
                     disableRipple={true}
                     color="inherit"
-                    onClick={handleOpenRegister}
+                    onClick={handleROpen}
                   >
                     <Typography
                       variant="h6"
@@ -122,19 +142,14 @@ const Header = () => {
                 }
 
                 <Modal
-                  open={openRegister}
-                  onClose={handleCloseRegister}
-                  disableEscapeKeyDown={false}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
+                  isOpen={openR}
+                  onRequestClose={handleRClose}
+                  ariaHideApp={false}
+                  style={customStyles}
+                  contentLabel="Register"
                 >
-                  <Register />
+                  <Register handleClose={handleRClose} />
                 </Modal>
-
-
-
-
-
 
                 {!isMobile &&
                   navItems.map((item) => (

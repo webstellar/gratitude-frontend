@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -32,16 +34,18 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/gratitude" element={<Gratitude />} />
+          <Route path="/appreciation/:id" element={<Gratitude />} />
           <Route path="/heroeslist" element={<HeroesList />} />
-          <Route path="/hero" element={<Hero />} />
+          <Route path="/hero/:id" element={<Hero />} />
           <Route path="/my-dashbaord" element={<UserDashboard />} />
           <Route path="/my-admin" element={<AdminDashboard />} />
           <Route path="/create-hero" element={<CreateHero />} />
           <Route path="/give-gratitude" element={<GiveGratitude />} />
-          <Route path="/writer" element={<Writer />} />
+          <Route path="/writer/:id" element={<Writer />} />
         </Routes>
       </Router>
+
+      <ToastContainer />
     </ThemeProvider>
   );
 }

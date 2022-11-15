@@ -42,3 +42,10 @@ export const GrBox = styled(Box)(({ theme }) => ({
         fontWeight: "600",
     }
 }))
+
+export const GrItem = styled(Paper)(({ theme }) => ({
+    backgroundColor: "rgba(255, 255, 255, 0)",
+    padding: theme.spacing(0),
+    textAlign: 'center',
+    color: "grey.900",
+}));

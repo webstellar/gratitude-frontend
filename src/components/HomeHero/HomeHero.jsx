@@ -1,7 +1,7 @@
-import { GrPaper, GrHeroImage, GrTypography, GrBox } from "./HomeHero.styles";
+import { GrPaper, GrHeroImage, GrTypography, GrBox, GrItem } from "./HomeHero.styles";
 import HeroImage from "./../../images/hero_image.webp"
 import { Link } from "react-router-dom";
-import { Typography, Grid, Box, Container } from "@mui/material";
+import { Typography, Grid, Box, Container, Stack } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 
 
@@ -35,19 +35,24 @@ const PageHero = () => {
                                     who changed your life
                                     immensely.
                                 </GrTypography>
-                                <div style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    flexWrap: 'wrap',
-                                }}>
-                                    <MenuIcon />
-                                    <span><Link to="/" style={{ color: "#fff", textDecoration: "none" }}>
-                                        <Typography variant="h6" component="h6">
-                                            READ
-                                        </Typography>
-                                    </Link></span>
-                                </div>
 
+                                <Stack
+                                    direction="row"
+                                    justifyContent="flex-start"
+                                    alignItems="center"
+                                    spacing={0}
+                                >
+                                    <GrItem elevation={0}>
+                                        <MenuIcon sx={{ color: "#fff" }} />
+                                    </GrItem>
+                                    <GrItem elevation={0}>
+                                        <Link to="/" style={{ color: "#fff", textDecoration: "none" }}>
+                                            <Typography variant="h6" component="h6">
+                                                READ
+                                            </Typography>
+                                        </Link>
+                                    </GrItem>
+                                </Stack>
                             </GrBox>
                         </Grid>
                     </Grid>

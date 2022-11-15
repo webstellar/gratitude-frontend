@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getGratitudes } from "../../redux/gratitudes/gratitudesSlice";
+
 import { Container, Grid, IconButton } from "@mui/material"
 import { GrBox, GrTypography, GrCTypography, GrLink, GrDiv } from "./HomeRecentTitle.styles"
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -6,13 +9,20 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 import GratitudeCard from "../GratitudeCard/GratitudeCard"
 import GratitudeCardBig from "../GratitudeCardBig/GratitudeCardBig"
-import { gratitudes } from "../../data/GratitudeDummy"
 
 const HomeRecentTitle = () => {
-
-
+    const dispatch = useDispatch()
     const [current, setCurrent] = useState(0)
-    const length = gratitudes.length
+
+    const { loading, appreciations, error } = useSelector(
+        (state) => state.gratitudes
+    );
+
+    const length = appreciations.length
+
+    useEffect(() => {
+        dispatch(getGratitudes())
+    }, [dispatch])
 
 
     const nextSlide = () => {
@@ -54,8 +64,8 @@ const HomeRecentTitle = () => {
                             spacing={4}>
 
                             {
-                                gratitudes.slice(1, 4).map((gratitude) => (
-                                    <GratitudeCard key={gratitude.id} gratitude={gratitude} />
+                                appreciations && appreciations.slice(1, 4).map((appreciation) => (
+                                    <GratitudeCard key={appreciation._id} gratitude={appreciation} />
                                 ))
                             }
 
@@ -85,8 +95,8 @@ const HomeRecentTitle = () => {
                             spacing={4}>
 
                             {
-                                gratitudes.map((gratitude) => (
-                                    <GratitudeCardBig key={gratitude.id} gratitude={gratitude} />
+                                appreciations && appreciations.map((appreciation) => (
+                                    <GratitudeCardBig key={appreciation._id} gratitude={appreciation} />
                                 ))
                             }
 
@@ -113,8 +123,8 @@ const HomeRecentTitle = () => {
                             spacing={4}>
 
                             {
-                                gratitudes.slice(0, 4).map((gratitude) => (
-                                    <GratitudeCardBig key={gratitude.id} gratitude={gratitude} />
+                                appreciations && appreciations.slice(0, 4).map((appreciation) => (
+                                    <GratitudeCardBig key={appreciation._id} gratitude={appreciation} />
                                 ))
                             }
 

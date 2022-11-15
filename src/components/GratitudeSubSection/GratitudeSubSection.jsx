@@ -17,7 +17,7 @@ const GratitudeSubSection = ({ gratitude }) => {
         <section>
             <GrBox>
                 <Container maxWidth="xl">
-                    <Typography component="p" variant="p" gutterBottom>{gratitude.title}</Typography>
+                    <Typography component="p" variant="p" gutterBottom>{gratitude?.summary}</Typography>
                     <Grid
                         container
                         direction="row"
@@ -27,7 +27,7 @@ const GratitudeSubSection = ({ gratitude }) => {
                             item
                             xs={6} sm={6} md={6}
                         >
-                            <Typography variant="caption" component="p">by <strong>{gratitude.giver}</strong></Typography>
+                            <Typography variant="caption" component="p">by <strong>{gratitude?.user?.name}</strong></Typography>
                         </Grid>
 
                         <Grid
