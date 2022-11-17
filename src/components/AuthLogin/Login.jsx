@@ -16,6 +16,7 @@ import { toast } from "react-toastify"
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../redux/auth/authSlice';
+import { googleSignIn } from '../../redux/auth/authService';
 import jwt_decode from "jwt-decode"
 import { LinkedInApi } from "../../config/linkedInconfig"
 import { useScript } from '../../hooks/useScript';
@@ -69,6 +70,40 @@ const Login = ({ handleClose }) => {
 
 
     //Google Signin
+    const onGoogleSignIn = (user) => {
+        let userCred = user.credential;
+        let payload = jwt_decode(userCred);
+        let userData = {
+            name: payload.name,
+            email: payload.email,
+            profilePicture: payload.picture,
+            googleId: payload.sub,
+        };
+        dispatch(googleSignIn({ userData, navigate, toast }));
+    };
+
+    useScript("https://accounts.google.com/gsi/client", () => {
+        window.google.accounts.id.initialize({
+            client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+            callback: onGoogleSignIn,
+        });
+
+        window.google.accounts.id.renderButton(
+            document.getElementById("signInDiv"),
+            {
+                theme: "outline",
+                size: "large",
+                shape: "Rectangular",
+                text: "signin_with",
+                context: "signin",
+                width: "100%",
+                logo_alignment: "center",
+            }
+        );
+
+        window.google.accounts.id.prompt();
+    });
+
 
     //LinkedIn
     const showLinkedinPopup = () => {
@@ -164,6 +199,11 @@ const Login = ({ handleClose }) => {
                         <Typography variant="p" component="p" size="large" color="grey.900">
                             Forgot password? click here.
                         </Typography>
+                    </Grid>
+
+
+                    <Grid item sx={12} md={12}>
+                        <div id="signInDiv" />
                     </Grid>
 
                     <Grid item xs={12} md={12}>

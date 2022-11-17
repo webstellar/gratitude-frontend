@@ -36,7 +36,7 @@ const GratitudeCardBig = ({ gratitude }) => {
                             <GrGiverTypography
                                 variant="caption"
                                 color="grey.500">
-                                written by {gratitude?.user?.name}
+                                written by {gratitude.user && gratitude?.user?.name}
                             </GrGiverTypography>
 
                             <GrHeroTypography variant="h6"

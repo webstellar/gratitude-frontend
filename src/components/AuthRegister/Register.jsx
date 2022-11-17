@@ -17,6 +17,11 @@ import { toast } from "react-toastify"
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from 'react-router-dom';
 import { register } from "../../redux/auth/authSlice";
+import { googleSignUp } from "../../redux/auth/authService";
+import jwt_decode from "jwt-decode"
+import { LinkedInApi } from "../../config/linkedInconfig"
+import { useScript } from '../../hooks/useScript';
+
 
 const style = {
     position: 'absolute',
@@ -33,20 +38,18 @@ const style = {
     }
 }
 
-const initialState = {
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-}
-
-const Login = ({ handleClose }) => {
+const Register = ({ handleRClose }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [userData, setFormData] = useState(initialState)
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    })
 
 
-    const { name, email, password, confirmPassword } = userData
+    const { name, email, password, confirmPassword } = formData
 
     const { loading, error } = useSelector((state) => ({
         ...state.auth
@@ -70,16 +73,53 @@ const Login = ({ handleClose }) => {
             toast.error("passwords do not match")
         }
         if (name && email && password && confirmPassword) {
-            const formData = {
-                name: name,
-                email: email,
-                password: password,
-                confirmPassword: confirmPassword
-            }
-            console.log(formData)
-            dispatch(register(formData, toast))
+            dispatch(register({ formData, navigate, toast }))
         }
     }
+
+    //Google SignRegister
+    const onGoogleSignUp = (user) => {
+        let userCred = user.credential;
+        let payload = jwt_decode(userCred);
+        let userData = {
+            name: payload.name,
+            email: payload.email,
+            profilePicture: payload.picture,
+            googleId: payload.sub,
+        };
+        dispatch(googleSignUp({ userData, navigate, toast }));
+    };
+
+    useScript("https://accounts.google.com/gsi/client", () => {
+        window.google.accounts.id.initialize({
+            client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+            callback: onGoogleSignUp,
+        });
+
+        window.google.accounts.id.renderButton(
+            document.getElementById("signUpDiv"),
+            {
+                theme: "outline",
+                size: "large",
+                shape: "Rectangular",
+                text: "signup_with",
+                context: "signup",
+                width: "100%",
+                logo_alignment: "center",
+            }
+        );
+
+        window.google.accounts.id.prompt();
+    });
+
+
+    //LinkedIn
+    const showLinkedinPopup = () => {
+        let { clientId, redirectUrl, oauthUrl, scope, state } = LinkedInApi;
+        oauthUrl = `${oauthUrl}&client_id=${clientId}&scope=${scope}&state=${state}&redirect_uri=${redirectUrl}`;
+        window.open(oauthUrl, "_self")
+    };
+
 
     return (
         <>
@@ -111,7 +151,7 @@ const Login = ({ handleClose }) => {
                             size="large"
                             disableRipple={true}
                             color="inherit"
-                            onClick={handleClose}
+                            onClick={handleRClose}
                         >
                             <ClearIcon sx={{ fontSize: "2.5rem" }} />
                         </IconButton>
@@ -209,14 +249,8 @@ const Login = ({ handleClose }) => {
                     </Grid>
 
 
-                    <Grid item xs={12} md={12}>
-                        <Typography
-                            variant="p"
-                            component="p"
-                            size="large"
-                            color="grey.900">
-                            Forgot password? click here.
-                        </Typography>
+                    <Grid item sx={12} md={12}>
+                        <div id="signUpDiv" />
                     </Grid>
                 </Grid>
             </Box>
@@ -224,4 +258,4 @@ const Login = ({ handleClose }) => {
     )
 }
 
-export default Login
+export default Register

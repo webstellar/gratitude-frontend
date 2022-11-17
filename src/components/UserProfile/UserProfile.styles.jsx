@@ -16,7 +16,7 @@ export const GrItem = styled(Paper)(({ theme }) => ({
 }));
 
 export const GrAvatar = styled(Avatar)(({ theme }) => ({
-    width: 180, height: 180,
+    width: 160, height: 160,
     [theme.breakpoints.down("md")]: {
         width: 100, height: 100
     }

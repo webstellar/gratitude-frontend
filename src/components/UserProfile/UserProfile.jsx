@@ -45,8 +45,8 @@ const UserProfile = () => {
                                 alignItems="center"
                                 divider={<Divider orientation="vertical" flexItem />}
                                 spacing={2}>
-                                <GrItem elevation={0}><Typography variant="h5">View Profile</Typography></GrItem>
-                                <GrItem elevation={0}><Typography variant="h5">Add a Give</Typography></GrItem>
+                                <GrItem elevation={0}><Typography variant="h6">View Profile</Typography></GrItem>
+                                <GrItem elevation={0}><Typography variant="h6">Add a Give</Typography></GrItem>
                             </Stack>
                         </Grid>
                     </Grid>

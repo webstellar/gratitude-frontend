@@ -4,7 +4,7 @@ import axios from "axios";
 
 const initialState = {
     loading: true,
-    user: null,
+    user: {},
     error: null,
     success: false
 }
@@ -31,16 +31,25 @@ export const login = createAsyncThunk("auth/login", async ({ formData, navigate,
 })
 
 
-export const register = createAsyncThunk("auth/register", async ({ formData, toast, thunkAPI }, { rejectWithValue }) => {
+export const register = createAsyncThunk("auth/register", async ({ formData, navigate, toast }, { rejectWithValue }) => {
     try {
-        const { data } = await axios.post(
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        const response = await axios.post(
             "/api/v1/register",
             formData,
+            config
         )
         toast.success("Registered successfully")
-        return data.user
-    } catch (error) {
-        return error.response.data.message
+        navigate("/")
+        return response.data
+
+    } catch (err) {
+        toast.error(err.response.data)
+        return rejectWithValue(err.response.data)
     }
 }
 )
@@ -70,12 +79,13 @@ export const authSlice = createSlice({
         })
         builder.addCase(register.fulfilled, (state, action) => {
             state.loading = false
-            state.user = action.payload
+            localStorage.setItem("profile", JSON.stringify({ ...action.payload }))
+            state.user = action.payload.user
             state.success = true
         })
         builder.addCase(register.rejected, (state, action) => {
             state.loading = false
-            state.error = action.error
+            state.error = action.error.message
             state.user = null
         })
     }

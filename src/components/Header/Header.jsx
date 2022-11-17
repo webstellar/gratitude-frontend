@@ -84,6 +84,7 @@ const Header = () => {
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -101,7 +102,10 @@ const Header = () => {
 
               <div>
                 {/* Login Modal */}
-                <IconButton size="large" disableRipple={true} color="inherit" onClick={handleOpen}>
+                <IconButton size="large"
+                  disableRipple={true}
+                  color="inherit"
+                  onClick={handleOpen}>
                   <Typography
                     variant="h6"
                     sx={{ fontWeight: "bold" }}
@@ -148,7 +152,7 @@ const Header = () => {
                   style={customStyles}
                   contentLabel="Register"
                 >
-                  <Register handleClose={handleRClose} />
+                  <Register handleRClose={handleRClose} />
                 </Modal>
 
                 {!isMobile &&

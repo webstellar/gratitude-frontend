@@ -37,7 +37,7 @@ function App() {
           <Route path="/appreciation/:id" element={<Gratitude />} />
           <Route path="/heroeslist" element={<HeroesList />} />
           <Route path="/hero/:id" element={<Hero />} />
-          <Route path="/my-dashbaord" element={<UserDashboard />} />
+          <Route path="/my-profile" element={<UserDashboard />} />
           <Route path="/my-admin" element={<AdminDashboard />} />
           <Route path="/create-hero" element={<CreateHero />} />
           <Route path="/give-gratitude" element={<GiveGratitude />} />
