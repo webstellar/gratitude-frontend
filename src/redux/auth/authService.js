@@ -10,7 +10,7 @@ const initialState = {
 
 export const googleSignIn = createAsyncThunk(
   "google/login",
-  async ({ formData, navigate, toast }, { rejectWithValue }) => {
+  async ({ formData, navigate, toast }) => {
     try {
       const config = {
         headers: {
@@ -18,11 +18,12 @@ export const googleSignIn = createAsyncThunk(
         },
       };
 
-      const response = await axios.post("/api/v1/authGoogle", formData, config);
+      const { data } = await axios.post("/api/v1/authGoogle", formData, config);
       toast.success("Logged in successfully");
       navigate("/");
-      return response.data;
+      return data;
     } catch (error) {
+      toast.error(error.response.data.message);
       return error.response.data.message;
     }
   }
@@ -30,7 +31,7 @@ export const googleSignIn = createAsyncThunk(
 
 export const googleSignUp = createAsyncThunk(
   "google/signup",
-  async ({ formData, navigate, toast }, { rejectWithValue }) => {
+  async ({ formData, navigate, toast }) => {
     try {
       const config = {
         headers: {
@@ -38,10 +39,10 @@ export const googleSignUp = createAsyncThunk(
         },
       };
 
-      const response = await axios.post("/api/v1/register", formData, config);
+      const { data } = await axios.post("/api/v1/register", formData, config);
       toast.success("Registered successfully");
       navigate("/");
-      return response.data;
+      return data;
     } catch (error) {
       return error.response.data.message;
     }
@@ -73,7 +74,7 @@ export const googleSlice = createSlice({
     builder.addCase(googleSignUp.fulfilled, (state, action) => {
       state.loading = false;
       localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
-      state.user = action.payload.user;
+      state.user = action.payload;
     });
     builder.addCase(googleSignUp.rejected, (state, action) => {
       state.loading = false;

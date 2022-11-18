@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "./App.css";
@@ -15,6 +16,9 @@ import CreateHero from "./pages/CreateHero";
 import GiveGratitude from "./pages/GiveGratitude";
 import Writer from "./pages/Writer";
 
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "./redux/auth/authSlice";
+
 const theme = createTheme({
   typography: {
     fontFamily: ["Josefin Sans"].join(","),
@@ -27,6 +31,13 @@ const theme = createTheme({
 });
 
 function App() {
+  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
+
+  useEffect(() => {
+    dispatch(setUser(user));
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Router>

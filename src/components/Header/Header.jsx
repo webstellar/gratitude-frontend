@@ -27,6 +27,9 @@ import SearchBar from "../SearchBar/SearchBar";
 import Login from "../AuthLogin/Login";
 import Register from "../AuthRegister/Register"
 
+import { useSelector, useDispatch } from "react-redux";
+import { setLogout } from "../../redux/auth/authSlice";
+
 const navItems = [
   {
     id: 1,
@@ -52,13 +55,18 @@ const customStyles = {
 Modal.setAppElement(document.getElementById('header'));
 
 const Header = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [openR, setOpenR] = useState(false);
+  const { user } = useSelector((state) => ({ ...state.auth }))
+
+  const handleLogout = () => {
+    dispatch(setLogout())
+  }
 
   //Login Popup
   const handleOpen = () => {
@@ -79,7 +87,6 @@ const Header = () => {
     setOpenR(false)
   };
 
-
   //hamburger menu
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -88,6 +95,8 @@ const Header = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+
 
   return (
     <div>
@@ -102,7 +111,7 @@ const Header = () => {
 
               <div>
                 {/* Login Modal */}
-                <IconButton size="large"
+                {!user?.user?._id && (<IconButton size="large"
                   disableRipple={true}
                   color="inherit"
                   onClick={handleOpen}>
@@ -124,7 +133,8 @@ const Header = () => {
                   </Modal>
                   {/* Login Modal */}
 
-                </IconButton>
+                </IconButton>)}
+
                 {!isMobile &&
                   <SearchBar />
                 }
@@ -202,6 +212,9 @@ const Header = () => {
                       </MenuItem>
                       <MenuItem onClick={() => navigate("/my-dashboard")}>
                         My account
+                      </MenuItem>
+                      <MenuItem onClick={handleLogout}>
+                        Logout
                       </MenuItem>
                     </Menu>
                   </>

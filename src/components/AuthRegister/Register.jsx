@@ -109,7 +109,7 @@ const Register = ({ handleRClose }) => {
             }
         );
 
-        window.google.accounts.id.prompt();
+        //window.google.accounts.id.prompt();
     });
 
 
@@ -249,7 +249,7 @@ const Register = ({ handleRClose }) => {
                     </Grid>
 
 
-                    <Grid item sx={12} md={12}>
+                    <Grid item xs={12} md={12}>
                         <div id="signUpDiv" />
                     </Grid>
                 </Grid>

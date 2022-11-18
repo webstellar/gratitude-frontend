@@ -73,6 +73,7 @@ const Login = ({ handleClose }) => {
     const onGoogleSignIn = (user) => {
         let userCred = user.credential;
         let payload = jwt_decode(userCred);
+        console.log(payload)
         let userData = {
             name: payload.name,
             email: payload.email,
@@ -100,8 +101,8 @@ const Login = ({ handleClose }) => {
                 logo_alignment: "center",
             }
         );
-
-        window.google.accounts.id.prompt();
+        
+        //window.google.accounts.id.prompt();
     });
 
 
@@ -202,7 +203,7 @@ const Login = ({ handleClose }) => {
                     </Grid>
 
 
-                    <Grid item sx={12} md={12}>
+                    <Grid item xs={12} md={12}>
                         <div id="signInDiv" />
                     </Grid>
 
