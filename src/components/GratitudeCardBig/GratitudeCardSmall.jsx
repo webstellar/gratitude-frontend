@@ -8,28 +8,42 @@ import {
   Typography,
   Stack,
 } from "@mui/material";
-import { GrStoriesTypography, GrItem } from "./GratitudeCard.styles";
+import {
+  GrStoriesTypography,
+  GrHeroTypography,
+  //GrGiverTypography,
+  GrItem,
+} from "./GratitudeCardBig.styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import defaultImage from "../../images/dummy_post.webp";
 
-const GratitudeCard = ({ gratitude }) => {
+const GratitudeCardBig = ({ gratitude }) => {
   return (
     <>
-      <Grid item xs={12} md={4}>
+      <Grid item xs={12} md={12}>
         <CardActionArea component={Link} to={`/appreciation/${gratitude?._id}`}>
-          <Card sx={{ display: "flex" }}>
+          <Card sx={{ display: "block" }}>
             <CardMedia
               component="img"
-              sx={{ width: 160, display: { xs: "block", sm: "block" } }}
-              image={gratitude.image?.url || defaultImage}
-              alt={gratitude.summary}
+              sx={{ width: "100%", height: 200 }}
+              image={gratitude?.image?.url || defaultImage}
+              alt={gratitude?.summary}
             />
             <CardContent sx={{ flex: 1 }}>
               <Typography variant="subtitle1">{gratitude?.tags[0]}</Typography>
+
               <GrStoriesTypography variant="h6" component="h6" gutterBottom>
-                {gratitude.summary.substring(0, 40)}...
+                {gratitude?.summary.substring(0, 40)}...
               </GrStoriesTypography>
+
+              {/*<GrGiverTypography variant="caption" color="grey.500">
+                written by {gratitude.user && gratitude?.user?.name}
+              </GrGiverTypography>*/}
+
+              <GrHeroTypography variant="h6" component="h6" gutterBottom>
+                for {gratitude?.hero?.name}
+              </GrHeroTypography>
 
               <Stack
                 direction="row"
@@ -58,8 +72,8 @@ const GratitudeCard = ({ gratitude }) => {
   );
 };
 
-GratitudeCard.propTypes = {
+GratitudeCardBig.propTypes = {
   gratitude: PropTypes.array,
 };
 
-export default GratitudeCard;
+export default GratitudeCardBig;

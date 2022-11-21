@@ -1,9 +1,10 @@
 import { Helmet } from "react-helmet";
+import PropTypes from "prop-types";
 
 const Seo = ({ description, lang, meta, title, image, author }) => {
   const metaDescription = description;
   const metaImage = image;
-  const metaAuthor = "Xavier" || author;
+  const metaAuthor = "Xavier Carbonel" || author;
 
   return (
     <Helmet
@@ -55,4 +56,12 @@ const Seo = ({ description, lang, meta, title, image, author }) => {
   );
 };
 
+Seo.propTypes = {
+  description: PropTypes.string,
+  lang: PropTypes.object,
+  meta: PropTypes.string,
+  title: PropTypes.string,
+  image: PropTypes.string,
+  author: PropTypes.string,
+};
 export default Seo;

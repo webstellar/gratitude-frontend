@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  GrAppBar,
-  GrToolBar,
-  GrImg,
-  GrLink
-} from "./Header.styles";
+import { GrAppBar, GrToolBar, GrImg, GrLink } from "./Header.styles";
 import {
   Box,
   Typography,
@@ -14,18 +9,17 @@ import {
   Menu,
   MenuItem,
   Container,
-  CssBaseline
+  CssBaseline,
 } from "@mui/material";
 import BrandLogo from "../../images/black-gratitude.svg";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
-import Modal from 'react-modal';
-
+import Modal from "react-modal";
 
 import MobileMenu from "../MobileMenu/MobileMenu";
 import SearchBar from "../SearchBar/SearchBar";
 import Login from "../AuthLogin/Login";
-import Register from "../AuthRegister/Register"
+import Register from "../AuthRegister/Register";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setLogout } from "../../redux/auth/authSlice";
@@ -33,8 +27,8 @@ import { setLogout } from "../../redux/auth/authSlice";
 const navItems = [
   {
     id: 1,
-    name: "Our story",
-    link: "/our-story",
+    name: "Heroes",
+    link: "/heroeslist",
     type: "text",
     variant: "h6",
     weight: "regular",
@@ -43,48 +37,47 @@ const navItems = [
 
 const customStyles = {
   content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
     overflow: "unset",
-    transform: 'translate(-50%, -50%)',
+    transform: "translate(-50%, -50%)",
   },
 };
 
-Modal.setAppElement(document.getElementById('header'));
+Modal.setAppElement("#root");
 
 const Header = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [openR, setOpenR] = useState(false);
-  const { user } = useSelector((state) => ({ ...state.auth }))
+  const { user } = useSelector((state) => ({ ...state.auth }));
 
   const handleLogout = () => {
-    dispatch(setLogout())
-  }
+    dispatch(setLogout());
+  };
 
   //Login Popup
   const handleOpen = () => {
-    setOpen(true)
+    setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false)
+    setOpen(false);
   };
-
 
   //Register Popup
   const handleROpen = () => {
-    setOpenR(true)
+    setOpenR(true);
   };
 
   const handleRClose = () => {
-    setOpenR(false)
+    setOpenR(false);
   };
 
   //hamburger menu
@@ -96,13 +89,18 @@ const Header = () => {
     setAnchorEl(null);
   };
 
-
+  console.log(user?.user?._id);
 
   return (
     <div>
       <CssBaseline />
       <Box sx={{ flexGrow: 1 }}>
-        <GrAppBar position="static" elevation={0} color="default" sx={{ bgcolor: 'background.paper' }}>
+        <GrAppBar
+          position="static"
+          elevation={0}
+          color="default"
+          sx={{ bgcolor: "background.paper" }}
+        >
           <Container maxWidth="xl">
             <GrToolBar>
               <Box sx={{ flexGrow: 1 }} component="a" href="/">
@@ -111,49 +109,44 @@ const Header = () => {
 
               <div>
                 {/* Login Modal */}
-                {!user?.user?._id && (<IconButton size="large"
-                  disableRipple={true}
-                  color="inherit"
-                  onClick={handleOpen}>
-                  <Typography
-                    variant="h6"
-                    sx={{ fontWeight: "bold" }}
+                {user?.user?._id ? null : (
+                  <IconButton
+                    size="large"
+                    disableRipple={true}
+                    color="inherit"
+                    onClick={handleOpen}
                   >
-                    LOGIN
-                  </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                      LOGIN
+                    </Typography>
 
-                  <Modal
-                    isOpen={open}
-                    onRequestClose={handleClose}
-                    ariaHideApp={false}
-                    style={customStyles}
-                    contentLabel="Login"
-                  >
-                    <Login handleClose={handleClose} />
-                  </Modal>
-                  {/* Login Modal */}
+                    <Modal
+                      isOpen={open}
+                      onRequestClose={handleClose}
+                      ariaHideApp={false}
+                      style={customStyles}
+                      contentLabel="Login"
+                    >
+                      <Login handleClose={handleClose} />
+                    </Modal>
+                    {/* Login Modal */}
+                  </IconButton>
+                )}
 
-                </IconButton>)}
+                {!isMobile && <SearchBar />}
 
-                {!isMobile &&
-                  <SearchBar />
-                }
-
-                {!isMobile &&
+                {!isMobile && (
                   <IconButton
                     size="large"
                     disableRipple={true}
                     color="inherit"
                     onClick={handleROpen}
                   >
-                    <Typography
-                      variant="h6"
-                      sx={{ fontWeight: "regular" }}
-                    >
+                    <Typography variant="h6" sx={{ fontWeight: "regular" }}>
                       Give
                     </Typography>
                   </IconButton>
-                }
+                )}
 
                 <Modal
                   isOpen={openR}
@@ -189,7 +182,11 @@ const Header = () => {
                   ))}
                 {!isMobile && (
                   <>
-                    <IconButton size="large" color="inherit" onClick={handleMenu}>
+                    <IconButton
+                      size="large"
+                      color="inherit"
+                      onClick={handleMenu}
+                    >
                       <MenuIcon />
                     </IconButton>
                     <Menu
@@ -213,9 +210,7 @@ const Header = () => {
                       <MenuItem onClick={() => navigate("/my-dashboard")}>
                         My account
                       </MenuItem>
-                      <MenuItem onClick={handleLogout}>
-                        Logout
-                      </MenuItem>
+                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
                     </Menu>
                   </>
                 )}
@@ -225,7 +220,7 @@ const Header = () => {
           </Container>
         </GrAppBar>
       </Box>
-    </div >
+    </div>
   );
 };
 export default Header;

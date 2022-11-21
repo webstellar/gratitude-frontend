@@ -16,7 +16,7 @@ import CreateHero from "./pages/CreateHero";
 import GiveGratitude from "./pages/GiveGratitude";
 import Writer from "./pages/Writer";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "./redux/auth/authSlice";
 
 const theme = createTheme({

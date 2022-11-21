@@ -1,88 +1,208 @@
-import { Box, TextField, Typography, Button, Grid } from '@mui/material/';
-import { GrTypography } from "./HeroForm.styles"
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import * as React from "react";
+import {
+  TextField,
+  Button,
+  Grid,
+  Container,
+  ButtonGroup,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+} from "@mui/material/";
+import { GrTypography, GrBox } from "./HeroForm.styles";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Link } from "react-router-dom";
+import FileBase from "react-file-base64";
 
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { createHero } from "../../redux/heroes/createHeroSlice";
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-    '& .MuiTextField-root': {
-        m: 1, width: '25ch'
-    }
-}
+import data from "../../data/countries.json";
+
+const genders = ["Male", "Female", "Binary", "Non-Binary"];
+const countries = data;
 
 const HeroForm = () => {
-    return (
-        <>
-            <Box
-                component="form"
-                sx={style}
-                noValidate
-                autoComplete="off"
-            >
-                <Grid
-                    container
-                    direction="column"
-                    justifyContent="flex-end"
-                    alignItems="stretch"
-                    rowSpacing={1}
-                >
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [formData, setFormData] = React.useState({
+    name: "",
+    description: "",
+    gender: "",
+    country: "",
+    email: "",
+    profilePicture: "",
+  });
 
-                    <Grid item sx={12} md={12}>
-                        <TextField fullWidth label="Add your hero’s name" />
-                    </Grid>
-                    <Grid item sx={12} md={12}>
-                        <TextField fullWidth label="Add your hero’s email address" />
-                    </Grid>
-                    <Grid item sx={12} md={12}>
-                        <TextField fullWidth label="EMAIL" />
-                    </Grid>
-                    <Grid item sx={12} md={12}>
-                        <TextField fullWidth label="ENTER YOUR PASSWORD" />
-                    </Grid>
-                    <Grid item sx={12} md={12}>
-                        <TextField fullWidth label="CONFIRM YOUR PASSWORD" />
-                    </Grid>
+  const { name, description, gender, country, email, profilePicture } =
+    formData;
+  const { error } = useSelector((state) => ({ ...state.newhero }));
 
-                    <Grid item sx={12} md={12}>
-                        <Button
-                            variant="outlined"
-                            component="label"
-                            startIcon={<CloudUploadIcon />}
-                        >
-                            UPLOAD YOUR PROFILE PICTURE
-                            <input
-                                type="file"
-                                hidden
-                            />
-                        </Button>
-                    </Grid>
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
 
-                    <Grid item sx={12} md={12}>
-                        <Button variant="contained" size="large" color="secondary" fullWidth>
-                            <GrTypography
-                                variant='h5' component="p" color="grey.900">CONTINUE</GrTypography>
-                        </Button>
-                    </Grid>
+    if (
+      name &&
+      email &&
+      description &&
+      gender &&
+      country &&
+      email &&
+      profilePicture
+    ) {
+      dispatch(createHero({ formData, navigate, toast }));
+    }
+  };
 
+  React.useEffect(() => {
+    error && toast.error(error);
+  }, [error]);
 
-                    <Grid item sx={12} md={12}>
-                        <Typography variant="p" component="p" size="large" color="grey.900">
-                            Forgot password? click here.
-                        </Typography>
-                    </Grid>
+  return (
+    <Container maxWidth="xl">
+      <GrBox>
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
+          <Grid item xs={12} md={6}>
+            <form noValidate autoComplete="off" onSubmit={onSubmit}>
+              <Grid
+                item
+                container
+                direction="column"
+                justifyContent="flex-end"
+                alignItems="stretch"
+                rowSpacing={4}
+              >
+                <Grid item xs={12} md={12}>
+                  <TextField
+                    name="name"
+                    value={name}
+                    type="text"
+                    required
+                    fullWidth
+                    label="Add your hero's name"
+                    onChange={onChange}
+                  />
                 </Grid>
-            </Box>
-        </>
-    )
-}
 
-export default HeroForm
+                <Grid item xs={12} md={12}>
+                  <TextField
+                    name="description"
+                    value={description}
+                    type="text"
+                    required
+                    multiline
+                    rows={4}
+                    fullWidth
+                    label="Describe your hero"
+                    onChange={onChange}
+                  />
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <FormControl fullWidth>
+                    <InputLabel>Select your hero&apos;s gender</InputLabel>
+                    <Select
+                      name="gender"
+                      type="text"
+                      required
+                      value={gender}
+                      label="Select your hero's gender"
+                      onChange={onChange}
+                    >
+                      {genders.map((gender, i) => (
+                        <MenuItem key={i} value={gender}>
+                          {gender}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <FormControl fullWidth>
+                    <InputLabel>Select your hero&apos;s country</InputLabel>
+                    <Select
+                      name="country"
+                      type="text"
+                      required
+                      value={country}
+                      label="Select your hero's country"
+                      onChange={onChange}
+                    >
+                      {countries.map((country, i) => (
+                        <MenuItem key={i} value={country}>
+                          {country}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs={12} md={12}>
+                  <InputLabel>
+                    Do you want to inform your hero of your testimony?
+                  </InputLabel>
+                  <TextField
+                    name="email"
+                    value={email}
+                    type="email"
+                    fullWidth
+                    label="Add your hero’s email address"
+                    onChange={onChange}
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={12}>
+                  <FileBase
+                    type="file"
+                    multiple={false}
+                    onDone={({ base64 }) =>
+                      setFormData({ ...formData, profilePicture: base64 })
+                    }
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={12}>
+                  <ButtonGroup variant="text" aria-label="text button group">
+                    <Button
+                      variant="contained"
+                      size="large"
+                      color="secondary"
+                      type="submit"
+                      fullWidth
+                    >
+                      <GrTypography variant="h5" component="p" color="grey.900">
+                        NEXT
+                      </GrTypography>
+                    </Button>
+                    <Button component={Link} to="give-gratitude">
+                      <GrTypography variant="p" component="p" color="grey.900">
+                        Skip
+                      </GrTypography>
+                    </Button>
+                  </ButtonGroup>
+                </Grid>
+              </Grid>
+            </form>
+          </Grid>
+          <Grid item xs={12} md={6}></Grid>
+        </Grid>
+      </GrBox>
+    </Container>
+  );
+};
+
+export default HeroForm;

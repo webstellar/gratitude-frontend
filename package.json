@@ -19,6 +19,7 @@
     "react": "^18.2.0",
     "react-cookie-consent": "^8.0.1",
     "react-dom": "^18.2.0",
+    "react-file-base64": "^1.0.3",
     "react-helmet": "^6.1.0",
     "react-modal": "^3.16.1",
     "react-redux": "^8.0.5",
@@ -53,5 +54,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.11",
+    "prettier": "^2.7.1"
   }
 }

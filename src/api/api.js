@@ -9,5 +9,6 @@ const config = {
 };
 
 export const signIn = (formData) => API.post("/api/v1/login", formData);
-export const signUp = (formData) =>
-  API.post("/api/v1/register", formData, config);
+export const signUp = (formData) => API.post("/api/v1/register", formData);
+export const createHero = (formData) =>
+  API.post("/api/v1/hero/new", formData, config);

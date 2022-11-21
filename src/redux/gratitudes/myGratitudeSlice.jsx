@@ -2,17 +2,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  appreciations: [],
+  myappreciations: [],
   loading: true,
   error: null,
   success: false,
 };
 
-export const getGratitudes = createAsyncThunk(
-  "gratitudes/getGratitudes",
+export const getMyGratitudes = createAsyncThunk(
+  "gratitudes/getMyGratitudes",
   async () => {
     try {
-      const { data } = await axios.get("/api/v1/appreciations");
+      const { data } = await axios.get("/api/v1/me/appreciations");
       return data;
     } catch (error) {
       return error.response.data.message;
@@ -20,21 +20,21 @@ export const getGratitudes = createAsyncThunk(
   }
 );
 
-export const gratitudesSlice = createSlice({
-  name: "gratitudes",
+export const myGratitudesSlice = createSlice({
+  name: "mygratitudes",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getGratitudes.pending, (state) => {
+    builder.addCase(getMyGratitudes.pending, (state) => {
       state.loading = true;
-      state.appreciations = [];
+      state.myappreciations = [];
     });
-    builder.addCase(getGratitudes.fulfilled, (state, action) => {
+    builder.addCase(getMyGratitudes.fulfilled, (state, action) => {
       state.loading = false;
-      state.appreciations = action.payload.appreciations;
+      state.myappreciations = action.payload.appreciations;
       state.success = true;
     });
-    builder.addCase(getGratitudes.rejected, (state, action) => {
+    builder.addCase(getMyGratitudes.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });

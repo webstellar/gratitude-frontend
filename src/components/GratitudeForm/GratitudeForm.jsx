@@ -1,0 +1,283 @@
+import * as React from "react";
+import {
+  TextField,
+  Button,
+  Grid,
+  Container,
+  ButtonGroup,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+} from "@mui/material/";
+import { GrTypography, GrBox, GrDiv } from "./GratitudeForm.styles";
+//import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Editor } from "@tinymce/tinymce-react";
+//import FileBase from "react-file-base64";
+
+import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { createGratitude } from "../../redux/gratitudes/createGratitudeSlice";
+import { getHeroes } from "../../redux/heroes/heroesSlice";
+
+const GratitudeForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const data = location.state?.data._id;
+
+  const [summary, setSummary] = React.useState("");
+  const [story, setStory] = React.useState("");
+  const [hero, setHero] = React.useState("");
+  const [image, setImage] = React.useState("");
+  const [tags, setTags] = React.useState(["caring", "magnanimous"]);
+  const [video, setVideo] = React.useState("");
+
+  const { error, appreciation, loading, success } = useSelector((state) => ({
+    ...state.newgratitude,
+  }));
+
+  const { heroes } = useSelector((state) => ({
+    ...state.heroes,
+  }));
+
+  React.useEffect(() => {
+    window.history.replaceState({}, document.title);
+    dispatch(getHeroes());
+    error && toast.error(error);
+  }, [error]);
+
+  React.useEffect(() => {
+    if (hero === "" && heroes && heroes.length > 0) {
+      setHero(heroes[0]._id);
+    }
+  }, [heroes]);
+
+  //tinymce editor
+  const storyChange = (story, editor) => {
+    if (editor.getContent({ format: "text" }).length < 2000) {
+      setStory(story);
+    }
+  };
+
+  //remove tags
+  const removeTag = (index) => {
+    setTags(tags.filter((el, i) => i !== index));
+  };
+
+  //tags
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+
+    if (e.key !== "Enter") return;
+    const value = e.target.value;
+    if (!value.trim()) return;
+    setTags([...tags, value]);
+    e.target.value = "";
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    } else {
+      const formData = {
+        hero: data || hero,
+        summary: summary,
+        story: story,
+        image: image,
+        video: video,
+        tags: [...tags],
+      };
+      console.log(formData);
+      dispatch(createGratitude({ formData, navigate, toast }));
+    }
+  };
+
+  React.useEffect(() => {
+    if (success) {
+      navigate(`/appreciation/${appreciation._id}`);
+    }
+  }, [success, appreciation, navigate]);
+
+  //images
+  const onChange = (e) => {
+    if (e.target.name === "image") {
+      const reader = new FileReader();
+      const file = e.target.files[0];
+      if (file > 8e6) {
+        alert("Max Limit is: 8mb");
+        return;
+      }
+      reader.onload = () => {
+        setImage(reader.result);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const tinymce = "0z5qmo7cx8rjieka6xxb9nz2y1b8k8rdyluiq9zv9r0t6du2";
+
+  return (
+    <Container maxWidth="xl">
+      <GrBox>
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
+          <Grid item xs={12} md={6}>
+            <form autoComplete="off" onSubmit={onSubmit}>
+              <Grid
+                item
+                container
+                direction="column"
+                justifyContent="flex-end"
+                alignItems="stretch"
+                rowSpacing={4}
+              >
+                <Grid item xs={12} md={12}>
+                  <FormControl fullWidth>
+                    {!data ? (
+                      <>
+                        <InputLabel>Select your hero</InputLabel>
+                        <Select
+                          name="hero"
+                          type="text"
+                          required
+                          value={hero}
+                          label="Select your hero"
+                          onChange={(e) => {
+                            setHero(e.target.value);
+                          }}
+                        >
+                          {heroes &&
+                            heroes.map((hero) => (
+                              <MenuItem key={hero._id} value={hero._id}>
+                                {hero.name}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </>
+                    ) : null}
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <TextField
+                    name="description"
+                    value={summary}
+                    type="text"
+                    required
+                    multiline
+                    rows={4}
+                    fullWidth
+                    label="Describe your hero"
+                    onChange={(e) => {
+                      setSummary(e.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <InputLabel>Express your appreciation here</InputLabel>
+                  <Editor
+                    apiKey={tinymce}
+                    value={story}
+                    plugins="wordcount fullscreen"
+                    init={{
+                      height: 500,
+                      menubar: false,
+                    }}
+                    onEditorChange={storyChange}
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={12}>
+                  <InputLabel>Write out qualities of your hero</InputLabel>
+                  <GrDiv className="border border-1 rounded p-2 tags-input-container">
+                    {tags.map((tag, index) => (
+                      <div className="tag-item" key={index}>
+                        <span className="text">{tag}</span>
+                        <span
+                          className="close"
+                          onClick={() => {
+                            removeTag(index);
+                          }}
+                        >
+                          &times;
+                        </span>
+                      </div>
+                    ))}
+                    <input
+                      onKeyDown={handleKeyDown}
+                      type="text"
+                      name="tags"
+                      style={{
+                        flexGrow: 1,
+                        padding: " 0.5em 0",
+                        border: "none",
+                        outline: "none",
+                      }}
+                      placeholder="Type something"
+                    />
+                  </GrDiv>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <TextField
+                    name="video"
+                    value={video}
+                    type="text"
+                    fullWidth
+                    label="Share youtube video id e.g. 75RjgtZ2tj0"
+                    onChange={(e) => {
+                      setVideo(e.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <InputLabel>Upload a banner for your hero</InputLabel>
+                  <Button variant="contained" component="label">
+                    Upload a banner for your hero
+                    <input
+                      hidden
+                      accept="image/*"
+                      multiple
+                      type="file"
+                      name="image"
+                      onChange={onChange}
+                    />
+                  </Button>
+                </Grid>
+
+                <Grid item xs={12} md={12}>
+                  <ButtonGroup variant="text" aria-label="text button group">
+                    <Button
+                      variant="contained"
+                      size="large"
+                      color="secondary"
+                      type="submit"
+                      disabled={loading ? true : false}
+                      fullWidth
+                    >
+                      <GrTypography variant="h5" component="p" color="grey.900">
+                        GIVE
+                      </GrTypography>
+                    </Button>
+                  </ButtonGroup>
+                </Grid>
+              </Grid>
+            </form>
+          </Grid>
+          <Grid item xs={12} md={6}></Grid>
+        </Grid>
+      </GrBox>
+    </Container>
+  );
+};
+
+export default GratitudeForm;
