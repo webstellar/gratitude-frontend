@@ -5,8 +5,8 @@ import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import Gratitude from "./pages/Gratitude";
 import HeroesList from "./pages/HeroesList";
 import Hero from "./pages/Hero";
@@ -43,8 +43,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<SignIn />} />
+          <Route path="/register" element={<SignUp />} />
           <Route path="/appreciation/:id" element={<Gratitude />} />
           <Route path="/heroeslist" element={<HeroesList />} />
           <Route path="/hero/:id" element={<Hero />} />

@@ -55,7 +55,6 @@ const Header = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
-  const [openR, setOpenR] = useState(false);
   const { user } = useSelector((state) => ({ ...state.auth }));
 
   const handleLogout = () => {
@@ -71,15 +70,6 @@ const Header = () => {
     setOpen(false);
   };
 
-  //Register Popup
-  const handleROpen = () => {
-    setOpenR(true);
-  };
-
-  const handleRClose = () => {
-    setOpenR(false);
-  };
-
   //hamburger menu
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -88,8 +78,6 @@ const Header = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-
-  console.log(user?.user?._id);
 
   return (
     <div>
@@ -121,11 +109,13 @@ const Header = () => {
                     </Typography>
 
                     <Modal
+                      id="login"
                       isOpen={open}
                       onRequestClose={handleClose}
                       ariaHideApp={false}
                       style={customStyles}
                       contentLabel="Login"
+                      shouldCloseOnOverlayClick={true}
                     >
                       <Login handleClose={handleClose} />
                     </Modal>
@@ -140,7 +130,7 @@ const Header = () => {
                     size="large"
                     disableRipple={true}
                     color="inherit"
-                    onClick={handleROpen}
+                    onClick={handleOpen}
                   >
                     <Typography variant="h6" sx={{ fontWeight: "regular" }}>
                       Give
@@ -149,13 +139,15 @@ const Header = () => {
                 )}
 
                 <Modal
-                  isOpen={openR}
-                  onRequestClose={handleRClose}
+                  id="register"
+                  isOpen={open}
+                  onRequestClose={handleClose}
                   ariaHideApp={false}
                   style={customStyles}
                   contentLabel="Register"
+                  shouldCloseOnOverlayClick={true}
                 >
-                  <Register handleRClose={handleRClose} />
+                  <Register handleRClose={handleClose} />
                 </Modal>
 
                 {!isMobile &&

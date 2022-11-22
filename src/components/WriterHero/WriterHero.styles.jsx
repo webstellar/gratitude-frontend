@@ -9,7 +9,7 @@ export const GrPaper = styled(Paper)({
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center",
-});
+})
 
 export const GrHeroImage = styled("img")(({ theme }) => ({
   maxWwidth: "100%",

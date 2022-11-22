@@ -11,7 +11,7 @@ import {
   Select,
 } from "@mui/material/";
 import { GrTypography, GrBox } from "./HeroForm.styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+//import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Link } from "react-router-dom";
 import FileBase from "react-file-base64";
 
@@ -39,6 +39,7 @@ const HeroForm = () => {
 
   const { name, description, gender, country, email, profilePicture } =
     formData;
+
   const { error } = useSelector((state) => ({ ...state.newhero }));
 
   const onChange = (e) => {

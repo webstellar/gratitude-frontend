@@ -2,17 +2,20 @@ import * as React from "react";
 import {
   TextField,
   Button,
+  ButtonGroup,
   Grid,
   Container,
-  ButtonGroup,
   InputLabel,
   MenuItem,
   FormControl,
   Select,
+  Link,
 } from "@mui/material/";
-import { GrTypography, GrBox, GrDiv } from "./GratitudeForm.styles";
+import { GrTypography, GrBox } from "./GratitudeForm.styles";
 //import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Editor } from "@tinymce/tinymce-react";
+import ChipInput from "material-ui-chip-input";
+
 //import FileBase from "react-file-base64";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -61,22 +64,21 @@ const GratitudeForm = () => {
     }
   };
 
-  //remove tags
-  const removeTag = (index) => {
-    setTags(tags.filter((el, i) => i !== index));
+  const handleAddTag = (tag) => {
+    setTags([...tags, tag]);
   };
 
-  //tags
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-    }
+  const handleDeleteTag = (deleteTag) => {
+    setTags(tags.filter((tag) => tag !== deleteTag));
+  };
 
-    if (e.key !== "Enter") return;
-    const value = e.target.value;
-    if (!value.trim()) return;
-    setTags([...tags, value]);
-    e.target.value = "";
+  const handleClear = () => {
+    setSummary("");
+    setStory("");
+    setHero("");
+    setImage("");
+    setTags([]);
+    setVideo("");
   };
 
   const onSubmit = (e) => {
@@ -91,10 +93,11 @@ const GratitudeForm = () => {
         story: story,
         image: image,
         video: video,
-        tags: [...tags],
+        tags: tags,
       };
       console.log(formData);
       dispatch(createGratitude({ formData, navigate, toast }));
+      handleClear();
     }
   };
 
@@ -102,7 +105,7 @@ const GratitudeForm = () => {
     if (success) {
       navigate(`/appreciation/${appreciation._id}`);
     }
-  }, [success, appreciation, navigate]);
+  }, [success, appreciation]);
 
   //images
   const onChange = (e) => {
@@ -170,14 +173,14 @@ const GratitudeForm = () => {
                 </Grid>
                 <Grid item xs={12} md={12}>
                   <TextField
-                    name="description"
+                    name="summary"
                     value={summary}
                     type="text"
                     required
                     multiline
                     rows={4}
                     fullWidth
-                    label="Describe your hero"
+                    label="summarize your story"
                     onChange={(e) => {
                       setSummary(e.target.value);
                     }}
@@ -198,40 +201,26 @@ const GratitudeForm = () => {
                 </Grid>
 
                 <Grid item xs={12} md={12}>
-                  <InputLabel>Write out qualities of your hero</InputLabel>
-                  <GrDiv className="border border-1 rounded p-2 tags-input-container">
-                    {tags.map((tag, index) => (
-                      <div className="tag-item" key={index}>
-                        <span className="text">{tag}</span>
-                        <span
-                          className="close"
-                          onClick={() => {
-                            removeTag(index);
-                          }}
-                        >
-                          &times;
-                        </span>
-                      </div>
-                    ))}
-                    <input
-                      onKeyDown={handleKeyDown}
-                      type="text"
-                      name="tags"
-                      style={{
-                        flexGrow: 1,
-                        padding: " 0.5em 0",
-                        border: "none",
-                        outline: "none",
-                      }}
-                      placeholder="Type something"
-                    />
-                  </GrDiv>
+                  <ChipInput
+                    value={tags}
+                    name="tags"
+                    variant="outlined"
+                    placeholder="Write out qualities of your hero"
+                    fullWidth
+                    onAdd={(tag) => handleAddTag(tag)}
+                    onDelete={(tag) => handleDeleteTag(tag)}
+                  />
                 </Grid>
                 <Grid item xs={12} md={12}>
+                  <InputLabel>
+                    <Link href="https://youtu.be/UjXTdZ45evs">Tutorial</Link>:
+                    How to get your Youtube Video Id
+                  </InputLabel>
                   <TextField
                     name="video"
                     value={video}
                     type="text"
+                    allowDuplicates={false}
                     fullWidth
                     label="Share youtube video id e.g. 75RjgtZ2tj0"
                     onChange={(e) => {
@@ -266,6 +255,11 @@ const GratitudeForm = () => {
                     >
                       <GrTypography variant="h5" component="p" color="grey.900">
                         GIVE
+                      </GrTypography>
+                    </Button>
+                    <Button onClick={handleClear} fullWidth>
+                      <GrTypography variant="p" component="p" color="grey.900">
+                        Clear
                       </GrTypography>
                     </Button>
                   </ButtonGroup>
