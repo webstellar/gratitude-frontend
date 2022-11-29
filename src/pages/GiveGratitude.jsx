@@ -4,14 +4,14 @@ import GratitudeForm from "../components/GratitudeForm/GratitudeForm";
 import Seo from "../components/Seo/Seo";
 
 import { setLogout } from "../redux/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const GiveGratitude = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const { user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(setLogout());

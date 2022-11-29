@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getGratitudes } from "../../redux/gratitudes/gratitudesSlice";
 import { getMyGratitudes } from "../../redux/gratitudes/myGratitudeSlice";
 
-import { Container, Grid, IconButton } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import {
   GrBox,
   GrTypography,
@@ -11,15 +11,12 @@ import {
   GrLink,
   GrDiv,
 } from "./HomeRecentTitle.styles";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 import GratitudeCard from "../GratitudeCard/GratitudeCard";
 import GratitudeCardBig from "../GratitudeCardBig/GratitudeCardBig";
 
 const HomeRecentTitle = () => {
   const dispatch = useDispatch();
-  const [current, setCurrent] = useState(0);
 
   const { appreciations } = useSelector((state) => ({ ...state.gratitudes }));
 
@@ -27,20 +24,10 @@ const HomeRecentTitle = () => {
     ...state.mygratitudes,
   }));
 
-  const length = appreciations.length;
-
   useEffect(() => {
     dispatch(getGratitudes());
     dispatch(getMyGratitudes());
   }, [dispatch]);
-
-  const nextSlide = () => {
-    setCurrent(current === length - 1 ? 0 : current + 1);
-  };
-
-  const prevSlide = () => {
-    setCurrent(current === 0 ? length - 1 : current - 1);
-  };
 
   return (
     <>
@@ -76,9 +63,6 @@ const HomeRecentTitle = () => {
             </Grid>
           </Grid>
           <GrDiv>
-            <IconButton size="large" color="inherit" onClick={prevSlide}>
-              <KeyboardArrowLeftIcon />
-            </IconButton>
             <Grid container spacing={4}>
               {myappreciations &&
                 myappreciations
@@ -90,9 +74,6 @@ const HomeRecentTitle = () => {
                     />
                   ))}
             </Grid>
-            <IconButton size="large" color="inherit" onClick={nextSlide}>
-              <KeyboardArrowRightIcon />
-            </IconButton>
           </GrDiv>
         </Container>
       </GrBox>

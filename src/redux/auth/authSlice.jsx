@@ -1,14 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const token = localStorage.getItem("token")
+  ? JSON.parse(localStorage.getItem("token"))
+  : null;
+
 const initialState = {
   loading: true,
-  user: {},
+  user: null,
+  token,
   error: null,
   success: false,
-  isAuthenicated: false,
+  isAuthenticated: false,
 };
 
+//login
 export const login = createAsyncThunk(
   "auth/login",
   async ({ formData, navigate, toast }, { rejectWithValue }) => {
@@ -19,10 +25,11 @@ export const login = createAsyncThunk(
         },
       };
       let authVia = "login";
-      const response = await axios.post(`/api/v1/${authVia}`, formData, config);
+      const { data } = await axios.post(`/api/v1/${authVia}`, formData, config);
       toast.success("Logged in successfully");
       navigate("/my-profile");
-      return response.data;
+      localStorage.setItem("token", JSON.stringify(data.token));
+      return data;
     } catch (err) {
       toast.error(err.response.data.errMessage);
       return rejectWithValue(err.response.data);
@@ -30,6 +37,7 @@ export const login = createAsyncThunk(
   }
 );
 
+//register
 export const register = createAsyncThunk(
   "auth/register",
   async ({ formData, navigate, toast }, { rejectWithValue }) => {
@@ -39,10 +47,10 @@ export const register = createAsyncThunk(
           "Content-Type": "application/json",
         },
       };
-      const response = await axios.post("/api/v1/register", formData, config);
+      const { data } = await axios.post("/api/v1/register", formData, config);
       toast.success("Registered successfully");
       navigate("/my-profile");
-      return response.data;
+      return data;
     } catch (err) {
       toast.error(err.response.data.errMessage);
       return rejectWithValue(err.response.data.errMessage);
@@ -54,16 +62,22 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    reset: (state) => {
+      state.error = null;
+      state.isAutheniticated = false;
+      state.success = false;
+      state.loading = false;
+    },
     setUser: (state, action) => {
       state.user = action.payload;
-      state.isAuthenicated = true;
+      state.isAuthenticated = true;
       state.success = true;
       state.loading = false;
     },
     setLogout: (state) => {
       localStorage.clear();
       state.user = null;
-      state.isAuthenicated = false;
+      state.isAuthenticated = false;
       state.loading = false;
     },
   },
@@ -73,10 +87,10 @@ export const authSlice = createSlice({
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
+      state.token = action.payload.token;
       localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
       state.user = action.payload;
-      console.log(state.user);
-      state.isAuthenicated = true;
+      state.isAuthenticated = true;
     });
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
@@ -91,9 +105,8 @@ export const authSlice = createSlice({
       state.loading = false;
       localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
       state.user = action.payload;
-      console.log(state.user);
       state.success = true;
-      state.isAuthenicated = true;
+      state.isAuthenticated = true;
     });
     builder.addCase(register.rejected, (state, action) => {
       state.loading = false;
@@ -103,4 +116,4 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUser, setLogout } = authSlice.actions;
+export const { reset, setUser, setLogout } = authSlice.actions;

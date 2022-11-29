@@ -14,7 +14,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { register } from "../../redux/auth/authSlice";
+import { register, reset } from "../../redux/auth/authSlice";
 import { googleSignUp } from "../../redux/auth/authService";
 import jwt_decode from "jwt-decode";
 import { LinkedInApi } from "../../config/linkedInconfig";
@@ -48,13 +48,13 @@ const Register = ({ handleRClose }) => {
 
   const { name, email, password, confirmPassword } = formData;
 
-  const { loading, error } = useSelector((state) => ({
-    ...state.auth,
-  }));
+  const { loading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
     error && toast.error(error);
-  }, [error]);
+
+    dispatch(reset());
+  }, [error, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -83,6 +83,7 @@ const Register = ({ handleRClose }) => {
       profilePicture: payload.picture,
       googleId: payload.sub,
     };
+    console.log(userData);
     dispatch(googleSignUp({ userData, navigate, toast }));
   };
 
@@ -147,6 +148,7 @@ const Register = ({ handleRClose }) => {
               disableRipple={true}
               color="inherit"
               onClick={handleRClose}
+              id="register"
             >
               <ClearIcon sx={{ fontSize: "2.5rem" }} />
             </IconButton>

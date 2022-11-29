@@ -59,7 +59,7 @@ const GratitudeCard = ({ gratitude }) => {
 };
 
 GratitudeCard.propTypes = {
-  gratitude: PropTypes.array,
+  gratitude: PropTypes.object,
 };
 
 export default GratitudeCard;

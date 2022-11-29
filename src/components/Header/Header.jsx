@@ -55,7 +55,9 @@ const Header = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
-  const { user } = useSelector((state) => ({ ...state.auth }));
+  const [openSecond, setOpenSecond] = useState(false);
+
+  const { user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(setLogout());
@@ -66,8 +68,22 @@ const Header = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClose = (event) => {
+    event.preventDefault();
+    if (event.currentTarget.id === "login") {
+      event.currentTarget.style.display = "none";
+    } else if (event.currentTarget.id === "register") {
+      setOpenSecond(false);
+    }
+    console.log(event.currentTarget.id);
+  };
+
+  const handleSecondOpen = () => {
+    setOpenSecond(true);
+  };
+
+  const handleSecondClose = () => {
+    setOpenSecond(false);
   };
 
   //hamburger menu
@@ -97,7 +113,7 @@ const Header = () => {
 
               <div>
                 {/* Login Modal */}
-                {user?.user?._id ? null : (
+                {!user ? (
                   <IconButton
                     size="large"
                     disableRipple={true}
@@ -112,16 +128,21 @@ const Header = () => {
                       id="login"
                       isOpen={open}
                       onRequestClose={handleClose}
+                      aria={{
+                        labelledby: "login",
+                        describedby: "full_description",
+                      }}
                       ariaHideApp={false}
                       style={customStyles}
                       contentLabel="Login"
                       shouldCloseOnOverlayClick={true}
+                      shouldCloseOnEsc={true}
                     >
                       <Login handleClose={handleClose} />
                     </Modal>
                     {/* Login Modal */}
                   </IconButton>
-                )}
+                ) : null}
 
                 {!isMobile && <SearchBar />}
 
@@ -130,7 +151,7 @@ const Header = () => {
                     size="large"
                     disableRipple={true}
                     color="inherit"
-                    onClick={handleOpen}
+                    onClick={handleSecondOpen}
                   >
                     <Typography variant="h6" sx={{ fontWeight: "regular" }}>
                       Give
@@ -140,12 +161,17 @@ const Header = () => {
 
                 <Modal
                   id="register"
-                  isOpen={open}
+                  isOpen={openSecond}
                   onRequestClose={handleClose}
+                  aria={{
+                    labelledby: "register",
+                    describedby: "full_description",
+                  }}
                   ariaHideApp={false}
                   style={customStyles}
                   contentLabel="Register"
                   shouldCloseOnOverlayClick={true}
+                  shouldCloseOnEsc={true}
                 >
                   <Register handleRClose={handleClose} />
                 </Modal>

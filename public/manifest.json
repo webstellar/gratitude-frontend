@@ -10,12 +10,12 @@
     {
       "src": "gratitude-white.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "160x164"
     },
     {
       "src": "gratitude-white.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "480x492"
     }
   ],
   "start_url": ".",

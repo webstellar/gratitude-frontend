@@ -47,9 +47,8 @@ const Login = ({ handleClose }) => {
     password: "",
   });
   const { email, password } = formData;
-  const { loading, error } = useSelector((state) => ({
-    ...state.auth,
-  }));
+
+  const { loading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
     error && toast.error(error);
@@ -144,6 +143,7 @@ const Login = ({ handleClose }) => {
               disableRipple={true}
               color="inherit"
               onClick={handleClose}
+              id="login"
             >
               <ClearIcon sx={{ fontSize: "2.5rem" }} />
             </IconButton>

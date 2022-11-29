@@ -28,7 +28,7 @@ const GratitudeCardBig = ({ gratitude }) => {
               component="img"
               sx={{ width: "100%", height: 200 }}
               image={gratitude?.image?.url || defaultImage}
-              alt={gratitude.summary}
+              alt={gratitude?.summary}
             />
             <CardContent sx={{ flex: 1 }}>
               <Typography variant="subtitle1">{gratitude?.tags[0]}</Typography>
@@ -73,7 +73,7 @@ const GratitudeCardBig = ({ gratitude }) => {
 };
 
 GratitudeCardBig.propTypes = {
-  gratitude: PropTypes.array,
+  gratitude: PropTypes.object,
 };
 
 export default GratitudeCardBig;

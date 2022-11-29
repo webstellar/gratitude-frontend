@@ -10,7 +10,7 @@ const initialState = {
 
 export const googleSignIn = createAsyncThunk(
   "google/login",
-  async ({ formData, navigate, toast }) => {
+  async ({ userData, navigate, toast }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
@@ -18,20 +18,20 @@ export const googleSignIn = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post("/api/v1/authGoogle", formData, config);
+      const { data } = await axios.post("/api/v1/authGoogle", userData, config);
       toast.success("Logged in successfully");
-      navigate("/");
+      navigate("/my-profile");
       return data;
-    } catch (error) {
-      toast.error(error.response.data.message);
-      return error.response.data.message;
+    } catch (err) {
+      toast.error(err.response.data.errMessage);
+      return rejectWithValue(err.response.data);
     }
   }
 );
 
 export const googleSignUp = createAsyncThunk(
   "google/signup",
-  async ({ formData, navigate, toast }) => {
+  async ({ formData, navigate, toast }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
@@ -44,7 +44,7 @@ export const googleSignUp = createAsyncThunk(
       navigate("/");
       return data;
     } catch (error) {
-      return error.response.data.message;
+      return rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -54,13 +54,14 @@ export const googleSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(googleSignIn.pending, (state, action) => {
+    builder.addCase(googleSignIn.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(googleSignIn.fulfilled, (state, action) => {
       state.loading = false;
       localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
       state.user = action.payload;
+      state.success = true;
     });
     builder.addCase(googleSignIn.rejected, (state, action) => {
       state.loading = false;
@@ -68,7 +69,7 @@ export const googleSlice = createSlice({
       state.user = null;
     });
 
-    builder.addCase(googleSignUp.pending, (state, action) => {
+    builder.addCase(googleSignUp.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(googleSignUp.fulfilled, (state, action) => {
