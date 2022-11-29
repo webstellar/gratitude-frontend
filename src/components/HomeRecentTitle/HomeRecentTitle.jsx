@@ -24,6 +24,8 @@ const HomeRecentTitle = () => {
     ...state.mygratitudes,
   }));
 
+  const { user } = useSelector((state) => state.auth);
+
   useEffect(() => {
     dispatch(getGratitudes());
     dispatch(getMyGratitudes());
@@ -33,35 +35,37 @@ const HomeRecentTitle = () => {
     <>
       <GrBox sx={{ flexGrow: 1 }}>
         <Container maxWidth="xl">
-          <Grid
-            container
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Grid item md={8}>
-              <GrTypography
-                omponent="p"
-                variant="h2"
-                color="inherit"
-                gutterBottom
-              >
-                Your recent stories, Peter
-              </GrTypography>
-            </Grid>
-            <Grid item md={4}>
-              <GrLink to="/my-profile">
-                <GrCTypography
-                  component="p"
-                  variant="p"
+          {user ? (
+            <Grid
+              container
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid item md={8}>
+                <GrTypography
+                  omponent="p"
+                  variant="h2"
                   color="inherit"
                   gutterBottom
                 >
-                  My collection
-                </GrCTypography>
-              </GrLink>
+                  Your recent stories, {user?.name}
+                </GrTypography>
+              </Grid>
+              <Grid item md={4}>
+                <GrLink to="/my-profile">
+                  <GrCTypography
+                    component="p"
+                    variant="p"
+                    color="inherit"
+                    gutterBottom
+                  >
+                    My collection
+                  </GrCTypography>
+                </GrLink>
+              </Grid>
             </Grid>
-          </Grid>
+          ) : null}
           <GrDiv>
             <Grid container spacing={4}>
               {myappreciations &&

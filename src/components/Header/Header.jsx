@@ -71,7 +71,7 @@ const Header = () => {
   const handleClose = (event) => {
     event.preventDefault();
     if (event.currentTarget.id === "login") {
-      event.currentTarget.style.display = "none";
+      setOpen(false);
     } else if (event.currentTarget.id === "register") {
       setOpenSecond(false);
     }
