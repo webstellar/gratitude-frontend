@@ -10,6 +10,7 @@ import {
   FormControl,
   Select,
   Link,
+  Autocomplete,
 } from "@mui/material/";
 import { GrTypography, GrBox } from "./GratitudeForm.styles";
 //import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -44,6 +45,8 @@ const GratitudeForm = () => {
   const { heroes } = useSelector((state) => ({
     ...state.heroes,
   }));
+
+  console.log(heroes);
 
   React.useEffect(() => {
     window.history.replaceState({}, document.title);
@@ -126,6 +129,16 @@ const GratitudeForm = () => {
 
   const tinymce = "0z5qmo7cx8rjieka6xxb9nz2y1b8k8rdyluiq9zv9r0t6du2";
 
+  const options =
+    heroes &&
+    heroes.map((option) => {
+      const firstLetter = option.name[0].toUpperCase();
+      return {
+        firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
+        ...option,
+      };
+    });
+
   return (
     <Container maxWidth="xl">
       <GrBox>
@@ -136,7 +149,7 @@ const GratitudeForm = () => {
           alignItems="flex-start"
         >
           <Grid item xs={12} md={6}>
-            <form autoComplete="off" onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
               <Grid
                 item
                 container
@@ -146,31 +159,33 @@ const GratitudeForm = () => {
                 rowSpacing={4}
               >
                 <Grid item xs={12} md={12}>
-                  <FormControl fullWidth>
-                    {!data ? (
-                      <>
-                        <InputLabel>Select your hero</InputLabel>
-                        <Select
+                  {!data ? (
+                    <Autocomplete
+                      value={hero?._id}
+                      onChange={(e) => {
+                        setHero(e.target.value);
+                      }}
+                      autoComplete
+                      id="grouped-demo"
+                      options={options.sort(
+                        (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
+                      )}
+                      groupBy={(option) => option.firstLetter}
+                      getOptionLabel={(option) => option.name}
+                      fullWidth
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
                           name="hero"
                           type="text"
                           required
-                          value={hero}
                           label="Select your hero"
-                          onChange={(e) => {
-                            setHero(e.target.value);
-                          }}
-                        >
-                          {heroes &&
-                            heroes.map((hero) => (
-                              <MenuItem key={hero._id} value={hero._id}>
-                                {hero.name}
-                              </MenuItem>
-                            ))}
-                        </Select>
-                      </>
-                    ) : null}
-                  </FormControl>
+                        />
+                      )}
+                    />
+                  ) : null}
                 </Grid>
+
                 <Grid item xs={12} md={12}>
                   <TextField
                     name="summary"

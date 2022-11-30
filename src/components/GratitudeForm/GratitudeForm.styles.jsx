@@ -35,3 +35,12 @@ export const GrDiv = styled("div")({
   flexWrap: "wrap",
   gap: "0.5em",
 });
+
+export const GrInput = styled("input")({
+  border: "0.9px solid #888",
+  padding: "0.5em 1em",
+  borderRadius: "0.2em",
+  fontSize: "1em",
+  color: "#333",
+  width: "100%",
+});

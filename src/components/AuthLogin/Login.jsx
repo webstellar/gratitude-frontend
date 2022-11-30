@@ -203,7 +203,7 @@ const Login = ({ handleClose }) => {
               type="submit"
               fullWidth
             >
-              {loading && <CircularProgress sx={{ fontSize: 10 }} />}
+              {loading && <CircularProgress size={20} />}
               <GrTypography variant="h5" component="p" color="grey.900">
                 CONTINUE
               </GrTypography>

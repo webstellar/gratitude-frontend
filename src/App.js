@@ -34,16 +34,15 @@ const theme = createTheme({
 function App() {
   const dispatch = useDispatch();
 
-  const { user, token } = useSelector((state) => state.auth);
+  const user = JSON.parse(localStorage.getItem("profile"));
+  //const { user, token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (token) {
-      dispatch(setUser(user));
-    }
-  }, [token, dispatch]);
+    dispatch(setUser(user));
+  }, [dispatch]);
 
   //Get user from local storage
-  //const user = JSON.parse(localStorage.getItem("profile"));
+
   /*
   const { user } = useSelector((state) => ({ ...state.auth }));
   useEffect(() => {
