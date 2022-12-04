@@ -189,7 +189,7 @@ const HeroForm = () => {
                         NEXT
                       </GrTypography>
                     </Button>
-                    <Button component={Link} to="give-gratitude">
+                    <Button component={Link} to="/give-gratitude">
                       <GrTypography variant="p" component="p" color="grey.900">
                         Skip
                       </GrTypography>

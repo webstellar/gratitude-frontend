@@ -37,7 +37,7 @@ const UserProfile = ({ user }) => {
             <GrAvatar
               alt="Remy Sharp"
               src={
-                user?.profilePicture?.url ||
+                user?.user?.profilePicture?.url ||
                 "https://source.unsplash.com/random"
               }
             />

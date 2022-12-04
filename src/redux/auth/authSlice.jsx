@@ -49,7 +49,7 @@ export const register = createAsyncThunk(
       };
       const { data } = await axios.post("/api/v1/register", formData, config);
       toast.success("Registered successfully");
-      navigate("/my-profile");
+      navigate("/create-hero");
       return data;
     } catch (err) {
       toast.error(err.response.data.errMessage);

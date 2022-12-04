@@ -6,6 +6,7 @@ const initialState = {
   user: {},
   error: null,
   success: false,
+  isAuthenticated: false,
 };
 
 export const googleSignIn = createAsyncThunk(
@@ -17,7 +18,6 @@ export const googleSignIn = createAsyncThunk(
           "Content-Type": "application/json",
         },
       };
-
       const { data } = await axios.post("/api/v1/authGoogle", userData, config);
       toast.success("Logged in successfully");
       navigate("/my-profile");
@@ -39,7 +39,7 @@ export const googleSignUp = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post("/api/v1/register", formData, config);
+      const { data } = await axios.post("/api/v1/authGoogle", formData, config);
       toast.success("Registered successfully");
       navigate("/");
       return data;

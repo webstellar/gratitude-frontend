@@ -18,8 +18,8 @@ import Modal from "react-modal";
 
 import MobileMenu from "../MobileMenu/MobileMenu";
 import SearchBar from "../SearchBar/SearchBar";
-import Login from "../AuthLogin/Login";
-import Register from "../AuthRegister/Register";
+import ModalLogin from "../AuthLogin/ModalLogin";
+import ModalRegister from "../AuthRegister/ModalRegister";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setLogout } from "../../redux/auth/authSlice";
@@ -68,14 +68,8 @@ const Header = () => {
     setOpen(true);
   };
 
-  const handleClose = (event) => {
-    event.preventDefault();
-    if (event.currentTarget.id === "login") {
-      setOpen(false);
-    } else if (event.currentTarget.id === "register") {
-      setOpenSecond(false);
-    }
-    console.log(event.currentTarget.id);
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleSecondOpen = () => {
@@ -94,6 +88,8 @@ const Header = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLoggedUser = () => navigate("/create-hero");
 
   return (
     <div>
@@ -124,25 +120,26 @@ const Header = () => {
                       LOGIN
                     </Typography>
 
-                    <Modal
-                      id="login"
-                      isOpen={open}
-                      onRequestClose={handleClose}
-                      aria={{
-                        labelledby: "login",
-                        describedby: "full_description",
-                      }}
-                      ariaHideApp={false}
-                      style={customStyles}
-                      contentLabel="Login"
-                      shouldCloseOnOverlayClick={true}
-                      shouldCloseOnEsc={true}
-                    >
-                      <Login handleClose={handleClose} />
-                    </Modal>
                     {/* Login Modal */}
                   </IconButton>
                 ) : null}
+
+                <Modal
+                  id="login"
+                  isOpen={open}
+                  onRequestClose={handleClose}
+                  aria={{
+                    labelledby: "login",
+                    describedby: "full_description",
+                  }}
+                  ariaHideApp={false}
+                  style={customStyles}
+                  contentLabel="Login"
+                  shouldCloseOnOverlayClick={true}
+                  shouldCloseOnEsc={true}
+                >
+                  <ModalLogin handleClose={handleClose} />
+                </Modal>
 
                 {!isMobile && <SearchBar />}
 
@@ -151,7 +148,7 @@ const Header = () => {
                     size="large"
                     disableRipple={true}
                     color="inherit"
-                    onClick={handleSecondOpen}
+                    onClick={user ? handleLoggedUser : handleSecondOpen}
                   >
                     <Typography variant="h6" sx={{ fontWeight: "regular" }}>
                       Give
@@ -162,7 +159,7 @@ const Header = () => {
                 <Modal
                   id="register"
                   isOpen={openSecond}
-                  onRequestClose={handleClose}
+                  onRequestClose={handleSecondClose}
                   aria={{
                     labelledby: "register",
                     describedby: "full_description",
@@ -173,7 +170,7 @@ const Header = () => {
                   shouldCloseOnOverlayClick={true}
                   shouldCloseOnEsc={true}
                 >
-                  <Register handleRClose={handleClose} />
+                  <ModalRegister handleRClose={handleSecondClose} />
                 </Modal>
 
                 {!isMobile &&

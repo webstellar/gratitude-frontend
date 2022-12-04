@@ -16,8 +16,10 @@ import AdminDashboard from "./pages/AdminDashboard";
 import CreateHero from "./pages/CreateHero";
 import GiveGratitude from "./pages/GiveGratitude";
 import Writer from "./pages/Writer";
+import EditProfile from "./pages/EditProfile";
+import ForgottenPassword from "./pages/ForgottenPassword";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "./redux/auth/authSlice";
 
 const theme = createTheme({
@@ -41,15 +43,6 @@ function App() {
     dispatch(setUser(user));
   }, [dispatch]);
 
-  //Get user from local storage
-
-  /*
-  const { user } = useSelector((state) => ({ ...state.auth }));
-  useEffect(() => {
-    dispatch(setUser(user));
-  }, [dispatch, user]);
-  */
-
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -61,6 +54,7 @@ function App() {
           <Route path="/heroeslist" element={<HeroesList />} />
           <Route path="/hero/:id" element={<Hero />} />
           <Route path="/writer/:id" element={<Writer />} />
+          <Route path="/forgot-password" element={<ForgottenPassword />} />
 
           <Route path="/my-profile" element={<PrivateRoute />}>
             <Route path="/my-profile" element={<UserDashboard />} />
@@ -73,6 +67,9 @@ function App() {
           </Route>
           <Route path="/give-gratitude" element={<PrivateRoute />}>
             <Route path="/give-gratitude" element={<GiveGratitude />} />
+          </Route>
+          <Route path="/edit-profile" element={<PrivateRoute />}>
+            <Route path="/edit-profile" element={<EditProfile />} />
           </Route>
         </Routes>
       </Router>

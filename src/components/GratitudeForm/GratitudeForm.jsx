@@ -1,14 +1,12 @@
 import * as React from "react";
 import {
   TextField,
+  Box,
   Button,
   ButtonGroup,
   Grid,
   Container,
   InputLabel,
-  MenuItem,
-  FormControl,
-  Select,
   Link,
   Autocomplete,
 } from "@mui/material/";
@@ -24,6 +22,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { createGratitude } from "../../redux/gratitudes/createGratitudeSlice";
 import { getHeroes } from "../../redux/heroes/heroesSlice";
+import parse from "autosuggest-highlight/parse";
+import match from "autosuggest-highlight/match";
 
 const GratitudeForm = () => {
   const navigate = useNavigate();
@@ -45,8 +45,6 @@ const GratitudeForm = () => {
   const { heroes } = useSelector((state) => ({
     ...state.heroes,
   }));
-
-  console.log(heroes);
 
   React.useEffect(() => {
     window.history.replaceState({}, document.title);
@@ -149,6 +147,13 @@ const GratitudeForm = () => {
           alignItems="flex-start"
         >
           <Grid item xs={12} md={6}>
+            {hero}
+            {summary}
+            {story}
+            {image}
+            {video}
+            {[...tags]}
+            {data}
             <form onSubmit={onSubmit}>
               <Grid
                 item
@@ -161,18 +166,20 @@ const GratitudeForm = () => {
                 <Grid item xs={12} md={12}>
                   {!data ? (
                     <Autocomplete
-                      value={hero?._id}
                       onChange={(e) => {
                         setHero(e.target.value);
                       }}
-                      autoComplete
                       id="grouped-demo"
                       options={options.sort(
                         (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
                       )}
                       groupBy={(option) => option.firstLetter}
                       getOptionLabel={(option) => option.name}
+                      autoHighlight
                       fullWidth
+                      renderOption={(props, option) => (
+                        <Box {...props}>{option.name}</Box>
+                      )}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -185,7 +192,6 @@ const GratitudeForm = () => {
                     />
                   ) : null}
                 </Grid>
-
                 <Grid item xs={12} md={12}>
                   <TextField
                     name="summary"
@@ -245,7 +251,11 @@ const GratitudeForm = () => {
                 </Grid>
                 <Grid item xs={12} md={12}>
                   <InputLabel>Upload a banner for your hero</InputLabel>
-                  <Button variant="contained" component="label">
+                  <Button
+                    variant="contained"
+                    component="label"
+                    color="secondary"
+                  >
                     Upload a banner for your hero
                     <input
                       hidden
