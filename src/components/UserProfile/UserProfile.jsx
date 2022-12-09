@@ -35,11 +35,12 @@ const UserProfile = ({ user }) => {
         >
           <Grid item xs={3} md={2}>
             <GrAvatar
-              alt="Remy Sharp"
               src={
-                user?.user?.profilePicture?.url ||
-                "https://source.unsplash.com/random"
+                user.user
+                  ? user?.user?.profilePicture?.url
+                  : "https://source.unsplash.com/random"
               }
+              alt={user?.user?.name}
             />
           </Grid>
           <Grid

@@ -11,7 +11,6 @@ import {
   Autocomplete,
 } from "@mui/material/";
 import { GrTypography, GrBox } from "./GratitudeForm.styles";
-//import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Editor } from "@tinymce/tinymce-react";
 import ChipInput from "material-ui-chip-input";
 
@@ -22,8 +21,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { createGratitude } from "../../redux/gratitudes/createGratitudeSlice";
 import { getHeroes } from "../../redux/heroes/heroesSlice";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
 
 const GratitudeForm = () => {
   const navigate = useNavigate();

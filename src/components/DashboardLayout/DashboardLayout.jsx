@@ -280,7 +280,7 @@ const DashboardLayout = ({ children, user, handleLogout }) => {
             <ListItem disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 component={Link}
-                to="/my-profile"
+                to="/edit-profile"
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",

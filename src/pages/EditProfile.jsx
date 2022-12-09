@@ -7,6 +7,7 @@ import { setLogout } from "../redux/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import ChangePassword from "../components/ChangePassword/ChangePassword";
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const EditProfile = () => {
 
   return (
     <DashboardLayout user={user} handleLogout={handleLogout}>
-      <UserProfile user={user} />
+      <ChangePassword />
     </DashboardLayout>
   );
 };

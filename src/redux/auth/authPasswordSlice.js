@@ -27,6 +27,28 @@ export const forgotPassword = createAsyncThunk(
     }
   }
 );
+//forgot
+export const resetPassword = createAsyncThunk(
+  "auth/newPassword",
+  async ({ token, formData }, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const { data } = await axios.post(
+        `/api/v1/password/reset/${token}`,
+        formData,
+        config
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const authPasswordSlice = createSlice({
   name: "forgotPassword",
@@ -44,6 +66,19 @@ export const authPasswordSlice = createSlice({
     builder.addCase(forgotPassword.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload.errMessage;
+    });
+    builder.addCase(resetPassword.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(resetPassword.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = action.payload.success;
+    });
+    builder.addCase(resetPassword.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      console.log(state.error);
     });
   },
 });
