@@ -1,14 +1,14 @@
 import * as React from "react";
 import DashboardLayout from "../components/DashboardLayout/DashboardLayout";
-import HomeRecentTitle from "../components/HomeRecentTitle/HomeRecentTitle";
 import UserProfile from "../components/UserProfile/UserProfile";
 //import Seo from "../components/Seo/Seo";
-const UserDashboard = () => {
+import MyHeroList from "../components/MyHeroList/MyHeroList";
+
+const MyHeroesList = () => {
   return (
     <DashboardLayout>
-      <UserProfile />
-      <HomeRecentTitle />
+      <MyHeroList />
     </DashboardLayout>
   );
 };
-export default UserDashboard;
+export default MyHeroesList;

@@ -8,14 +8,17 @@ const initialState = {
   success: false,
 };
 
-export const getHeroes = createAsyncThunk("heroes/getHeroes", async () => {
-  try {
-    const { data } = await axios.get("/api/v1/heroes");
-    return data;
-  } catch (error) {
-    return error.response.data.message;
+export const getHeroes = createAsyncThunk(
+  "heroes/getHeroes",
+  async (keyword = "") => {
+    try {
+      const { data } = await axios.get(`/api/v1/heroes?keyword=${keyword}`);
+      return data;
+    } catch (error) {
+      return error.response.data.message;
+    }
   }
-});
+);
 
 export const heroesSlice = createSlice({
   name: "heroes",

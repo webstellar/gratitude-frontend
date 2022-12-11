@@ -12,17 +12,8 @@ export const createGratitude = createAsyncThunk(
   "gratitude/createGratitude",
   async ({ formData, toast }, { rejectWithValue }) => {
     try {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      const response = await axios.post(
-        "/api/v1/appreciation/new",
-        formData,
-        config
-      );
-      toast.success("Your gratitude was given successfully");
+      const response = await axios.post("/api/v1/appreciation/new", formData);
+      toast.success("Your gratitude was created successfully");
       return response.data;
     } catch (err) {
       toast.error(err.response.data.errMessage);

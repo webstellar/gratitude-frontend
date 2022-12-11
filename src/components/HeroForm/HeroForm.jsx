@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+  Box,
   TextField,
   Button,
   Grid,
@@ -79,6 +80,11 @@ const HeroForm = () => {
           alignItems="flex-start"
         >
           <Grid item xs={12} md={6}>
+            <Box sx={{ my: 4 }}>
+              <GrTypography variant="h5" component="p" color="grey.900">
+                CREATE A PROFILE FOR YOUR HUMBLE HERO
+              </GrTypography>
+            </Box>
             <form noValidate autoComplete="off" onSubmit={onSubmit}>
               <Grid
                 item
@@ -177,7 +183,11 @@ const HeroForm = () => {
                 </Grid>
 
                 <Grid item xs={12} md={12}>
-                  <ButtonGroup variant="text" aria-label="text button group">
+                  <ButtonGroup
+                    variant="text"
+                    aria-label="text button group"
+                    fullWidth
+                  >
                     <Button
                       variant="contained"
                       size="large"
@@ -189,7 +199,7 @@ const HeroForm = () => {
                         NEXT
                       </GrTypography>
                     </Button>
-                    <Button component={Link} to="/give-gratitude">
+                    <Button component={Link} to="/express-gratitude">
                       <GrTypography variant="p" component="p" color="grey.900">
                         Skip
                       </GrTypography>

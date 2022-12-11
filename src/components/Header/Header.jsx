@@ -222,7 +222,7 @@ const Header = () => {
                       <MenuItem onClick={() => navigate("/my-profile")}>
                         Profile
                       </MenuItem>
-                      <MenuItem onClick={() => navigate("/my-dashboard")}>
+                      <MenuItem onClick={() => navigate("/edit-profile")}>
                         My account
                       </MenuItem>
                       <MenuItem onClick={handleLogout}>Logout</MenuItem>

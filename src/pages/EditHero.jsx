@@ -1,13 +1,14 @@
 import * as React from "react";
 import DashboardLayout from "../components/DashboardLayout/DashboardLayout";
+import HeroFormEdit from "../components/HeroFormEdit/HeroFormEdit";
 //import Seo from "../components/Seo/Seo";
-import ChangePassword from "../components/ChangePassword/ChangePassword";
 
-const EditProfile = () => {
+const EditHero = () => {
   return (
     <DashboardLayout>
-      <ChangePassword />
+      <HeroFormEdit />
     </DashboardLayout>
   );
 };
-export default EditProfile;
+
+export default EditHero;

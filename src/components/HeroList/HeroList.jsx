@@ -6,6 +6,8 @@ import HeroCard from "../HeroCard/HeroCard";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getHeroes } from "../../redux/heroes/heroesSlice";
+import { allUsers } from "../../redux/auth/allUserSlice";
+import Contributors from "../Contributors/Contributors";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -39,6 +41,7 @@ const HeroList = () => {
   const [value, setValue] = useState(0);
 
   const { heroes } = useSelector((state) => ({ ...state.heroes }));
+  const { users } = useSelector((state) => state.users);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -46,6 +49,7 @@ const HeroList = () => {
 
   useEffect(() => {
     dispatch(getHeroes());
+    dispatch(allUsers());
   }, [dispatch]);
 
   return (
@@ -80,7 +84,7 @@ const HeroList = () => {
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={1}>
-                Coming soon
+                <Contributors users={users} />
               </TabPanel>
             </Grid>
           </Grid>

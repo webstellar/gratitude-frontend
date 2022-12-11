@@ -26,7 +26,14 @@ const GratitudeCardBig = ({ gratitude }) => {
           <Card sx={{ display: "block" }}>
             <CardMedia
               component="img"
-              sx={{ width: "100%", height: 200 }}
+              sx={{
+                width: "100%",
+                height: 200,
+                filter: "grayscale(100%)",
+                "&:hover": {
+                  filter: "grayscale(0%)",
+                },
+              }}
               image={gratitude?.image?.url || defaultImage}
               alt={gratitude?.summary}
             />

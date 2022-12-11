@@ -138,7 +138,7 @@ const WriterHero = ({ hero, appreciations }) => {
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={1}>
-                Item Two
+                {hero?.user?.name}
               </TabPanel>
             </Grid>
             <Grid item xs={12} md={4}>

@@ -19,7 +19,7 @@ export const createHero = createAsyncThunk(
       };
       const response = await axios.post("/api/v1/hero/new", formData, config);
       toast.success("Your hero was successfully");
-      navigate("/give-gratitude");
+      navigate("/express-gratitude");
       return response.data;
     } catch (err) {
       toast.error(err.response.data.errMessage);

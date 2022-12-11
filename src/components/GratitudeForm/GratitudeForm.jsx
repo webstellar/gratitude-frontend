@@ -1,14 +1,16 @@
 import * as React from "react";
 import {
-  TextField,
   Box,
+  TextField,
   Button,
   ButtonGroup,
   Grid,
   Container,
   InputLabel,
   Link,
-  Autocomplete,
+  FormControl,
+  Select,
+  MenuItem,
 } from "@mui/material/";
 import { GrTypography, GrBox } from "./GratitudeForm.styles";
 import { Editor } from "@tinymce/tinymce-react";
@@ -16,14 +18,15 @@ import ChipInput from "material-ui-chip-input";
 
 //import FileBase from "react-file-base64";
 
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+//import GratitudeCard from "../GratitudeCard/GratitudeCard";
 import { createGratitude } from "../../redux/gratitudes/createGratitudeSlice";
 import { getHeroes } from "../../redux/heroes/heroesSlice";
+import { getMyGratitudes } from "../../redux/gratitudes/myGratitudeSlice";
 
 const GratitudeForm = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const data = location.state?.data._id;
@@ -35,7 +38,7 @@ const GratitudeForm = () => {
   const [tags, setTags] = React.useState(["caring", "magnanimous"]);
   const [video, setVideo] = React.useState("");
 
-  const { error, appreciation, loading, success } = useSelector((state) => ({
+  const { error, loading } = useSelector((state) => ({
     ...state.newgratitude,
   }));
 
@@ -81,29 +84,22 @@ const GratitudeForm = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.stopPropagation();
-    } else {
-      const formData = {
-        hero: data || hero,
-        summary: summary,
-        story: story,
-        image: image,
-        video: video,
-        tags: tags,
-      };
-      console.log(formData);
-      dispatch(createGratitude({ formData, navigate, toast }));
-      handleClear();
-    }
-  };
 
-  React.useEffect(() => {
-    if (success) {
-      navigate(`/appreciation/${appreciation._id}`);
-    }
-  }, [success, appreciation]);
+    const formData = {
+      hero: data || hero,
+      summary: summary,
+      story: story,
+      image: image,
+      video: video,
+      tags: tags,
+    };
+    console.log(formData);
+    dispatch(createGratitude({ formData, toast }));
+    setTimeout(() => {
+      handleClear();
+    }, 10000);
+    dispatch(getMyGratitudes());
+  };
 
   //images
   const onChange = (e) => {
@@ -124,16 +120,6 @@ const GratitudeForm = () => {
 
   const tinymce = "0z5qmo7cx8rjieka6xxb9nz2y1b8k8rdyluiq9zv9r0t6du2";
 
-  const options =
-    heroes &&
-    heroes.map((option) => {
-      const firstLetter = option.name[0].toUpperCase();
-      return {
-        firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
-        ...option,
-      };
-    });
-
   return (
     <Container maxWidth="xl">
       <GrBox>
@@ -144,13 +130,12 @@ const GratitudeForm = () => {
           alignItems="flex-start"
         >
           <Grid item xs={12} md={6}>
-            {hero}
-            {summary}
-            {story}
-            {image}
-            {video}
-            {[...tags]}
-            {data}
+            <Box sx={{ my: 4 }}>
+              <GrTypography variant="h5" component="p" color="grey.900">
+                EXPRESS GRATITUDE FOR YOUR HUMBLE HERO
+              </GrTypography>
+            </Box>
+
             <form onSubmit={onSubmit}>
               <Grid
                 item
@@ -161,33 +146,30 @@ const GratitudeForm = () => {
                 rowSpacing={4}
               >
                 <Grid item xs={12} md={12}>
-                  {!data ? (
-                    <Autocomplete
-                      onChange={(e) => {
-                        setHero(e.target.value);
-                      }}
-                      id="grouped-demo"
-                      options={options.sort(
-                        (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
-                      )}
-                      groupBy={(option) => option.firstLetter}
-                      getOptionLabel={(option) => option.name}
-                      autoHighlight
-                      fullWidth
-                      renderOption={(props, option) => (
-                        <Box {...props}>{option.name}</Box>
-                      )}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
+                  <FormControl fullWidth>
+                    {!data ? (
+                      <>
+                        <InputLabel>Select your hero</InputLabel>
+                        <Select
                           name="hero"
                           type="text"
                           required
+                          value={hero}
                           label="Select your hero"
-                        />
-                      )}
-                    />
-                  ) : null}
+                          onChange={(e) => {
+                            setHero(e.target.value);
+                          }}
+                        >
+                          {heroes &&
+                            heroes.map((hero) => (
+                              <MenuItem key={hero._id} value={hero._id}>
+                                {hero.name}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </>
+                    ) : null}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12} md={12}>
                   <TextField
@@ -266,17 +248,20 @@ const GratitudeForm = () => {
                 </Grid>
 
                 <Grid item xs={12} md={12}>
-                  <ButtonGroup variant="text" aria-label="text button group">
+                  <ButtonGroup
+                    variant="text"
+                    aria-label="text button group"
+                    fullWidth
+                  >
                     <Button
                       variant="contained"
                       size="large"
                       color="secondary"
                       type="submit"
                       disabled={loading ? true : false}
-                      fullWidth
                     >
-                      <GrTypography variant="h5" component="p" color="grey.900">
-                        GIVE
+                      <GrTypography variant="h6" component="p" color="grey.900">
+                        EXPRESS
                       </GrTypography>
                     </Button>
                     <Button onClick={handleClear} fullWidth>

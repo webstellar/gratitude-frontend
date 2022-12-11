@@ -19,7 +19,6 @@ const HomeRecentTitle = () => {
   const dispatch = useDispatch();
 
   const { appreciations } = useSelector((state) => ({ ...state.gratitudes }));
-
   const { myappreciations } = useSelector((state) => ({
     ...state.mygratitudes,
   }));
@@ -70,13 +69,14 @@ const HomeRecentTitle = () => {
             <Grid container spacing={4}>
               {myappreciations &&
                 myappreciations
-                  .slice(1, 4)
                   .map((appreciation) => (
                     <GratitudeCard
                       key={appreciation._id}
                       gratitude={appreciation}
                     />
-                  ))}
+                  ))
+                  .reverse()
+                  .slice(1, 4)}
             </Grid>
           </GrDiv>
         </Container>

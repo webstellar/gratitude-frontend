@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import {
   Container,
   Stack,
@@ -16,9 +15,13 @@ import {
   GrLink,
 } from "./UserProfile.styles";
 
-const UserProfile = ({ user }) => {
+import { useSelector } from "react-redux";
+
+const UserProfile = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const { user } = useSelector((state) => state.auth);
 
   const username = user?.user?.name;
   const firstname = username.split(" ")[0];
@@ -77,7 +80,7 @@ const UserProfile = ({ user }) => {
                   </GrLink>
                 </GrItem>
                 <GrItem elevation={0}>
-                  <GrLink to="/give-gratitude">
+                  <GrLink to="/express-gratitude">
                     <Typography variant="h6">Give Gratitude</Typography>
                   </GrLink>
                 </GrItem>
@@ -90,10 +93,6 @@ const UserProfile = ({ user }) => {
       <Divider sx={{ bgcolor: "background.paper", mt: 3, mb: 3 }} />
     </Container>
   );
-};
-
-UserProfile.propTypes = {
-  user: PropTypes.object,
 };
 
 export default UserProfile;

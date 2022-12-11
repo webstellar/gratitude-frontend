@@ -29,8 +29,9 @@ const Login = () => {
     password: "",
   });
   const { email, password } = formData;
+  const { user, loading, error } = useSelector((state) => state.auth);
 
-  const { loading, error } = useSelector((state) => state.auth);
+  console.log({ user });
 
   useEffect(() => {
     error && toast.error(error);

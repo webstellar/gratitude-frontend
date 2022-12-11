@@ -1,13 +1,14 @@
 import * as React from "react";
 import DashboardLayout from "../components/DashboardLayout/DashboardLayout";
+import MyGratitudeList from "../components/MyGratitudeList/MyGratitudeList";
 //import Seo from "../components/Seo/Seo";
-import ChangePassword from "../components/ChangePassword/ChangePassword";
 
-const EditProfile = () => {
+const MyGratitudesList = () => {
+
   return (
     <DashboardLayout>
-      <ChangePassword />
+      <MyGratitudeList />
     </DashboardLayout>
   );
 };
-export default EditProfile;
+export default MyGratitudesList;

@@ -1,9 +1,16 @@
 import PropTypes from "prop-types";
-import { Typography, Grid, Divider, Container } from "@mui/material";
+import {
+  Typography,
+  Grid,
+  Divider,
+  Container,
+  IconButton,
+} from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import MailIcon from "@mui/icons-material/Mail";
+import { shareOnFacebook, shareOnLinkedIn } from "../../utils/SocialShare";
 
 import { GrBox } from "./GratitudeSubSection.styles";
 
@@ -39,16 +46,30 @@ const GratitudeSubSection = ({ gratitude }) => {
               spacing={2}
             >
               <Grid item>
-                <FacebookIcon />
+                <IconButton
+                  onClick={shareOnFacebook}
+                  sx={{ cursor: "pointer" }}
+                >
+                  <FacebookIcon />
+                </IconButton>
               </Grid>
               <Grid item>
-                <LinkedInIcon />
+                <IconButton
+                  onClick={shareOnLinkedIn}
+                  sx={{ cursor: "pointer" }}
+                >
+                  <LinkedInIcon />
+                </IconButton>
               </Grid>
               <Grid item>
-                <TwitterIcon />
+                <IconButton sx={{ cursor: "pointer" }}>
+                  <TwitterIcon />
+                </IconButton>
               </Grid>
               <Grid item>
-                <MailIcon />
+                <IconButton sx={{ cursor: "pointer" }}>
+                  <MailIcon />
+                </IconButton>
               </Grid>
             </Grid>
           </Grid>

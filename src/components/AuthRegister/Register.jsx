@@ -32,13 +32,9 @@ const Register = () => {
   });
 
   const { name, email, password, confirmPassword } = formData;
-
   const { user, loading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (user) {
-      navigate("/my-profile");
-    }
     error && toast.error(error);
     dispatch(reset());
   }, [user, error, dispatch]);

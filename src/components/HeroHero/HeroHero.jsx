@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
 import { GrPaper, GrHeroImage, GrTypography, GrBox } from "./HeroHero.styles";
 import HeroImage from "./../../images/heroList.webp";
 import { Grid, Box, Container } from "@mui/material";
-import axios from "axios";
 
 const HeroHero = () => {
   /*

@@ -4,14 +4,20 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  CardActions,
+  IconButton,
   CardMedia,
-  Typography,
 } from "@mui/material";
-import { GrHeroTypography, GrGiverTypography, GrLink } from "./HeroCard.styles";
-import MenuIcon from "@mui/icons-material/Menu";
+import {
+  GrHeroTypography,
+  GrGiverTypography,
+  GrLink,
+} from "./MyHeroCard.styles";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 
-const HeroCard = ({ hero }) => {
+const MyHeroCard = ({ hero, handleDelete }) => {
   return (
     <>
       <Grid item xs={12} md={3}>
@@ -40,25 +46,24 @@ const HeroCard = ({ hero }) => {
                   for {hero?.name}
                 </GrHeroTypography>
               </GrLink>
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexWrap: "wrap",
+            </CardContent>
+            <CardActions disableSpacing>
+              <IconButton
+                aria-label="edit"
+                component={Link}
+                to={`/edit/hero/${hero?._id}`}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                aria-label="delete"
+                onClick={() => {
+                  handleDelete(hero?._id);
                 }}
               >
-                <MenuIcon />
-                <Link
-                  to="/give-gratitude"
-                  style={{ textDecoration: "none", cursor: "pointer" }}
-                >
-                  <Typography variant="subtitle1" color="grey.900">
-                    EXPRESS
-                  </Typography>
-                </Link>
-              </div>
-            </CardContent>
+                <DeleteIcon />
+              </IconButton>
+            </CardActions>
           </Card>
         </CardActionArea>
       </Grid>
@@ -66,8 +71,9 @@ const HeroCard = ({ hero }) => {
   );
 };
 
-HeroCard.propTypes = {
+MyHeroCard.propTypes = {
   hero: PropTypes.object,
+  handleDelete: PropTypes.any,
 };
 
-export default HeroCard;
+export default MyHeroCard;

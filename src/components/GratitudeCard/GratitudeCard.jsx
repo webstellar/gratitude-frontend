@@ -21,7 +21,17 @@ const GratitudeCard = ({ gratitude }) => {
           <Card sx={{ display: "flex" }}>
             <CardMedia
               component="img"
-              sx={{ width: 160, display: { xs: "block", sm: "block" } }}
+              sx={{
+                width: 160,
+                display: {
+                  xs: "block",
+                  sm: "block",
+                  filter: "grayscale(100%)",
+                  "&:hover": {
+                    filter: "grayscale(0%)",
+                  },
+                },
+              }}
               image={gratitude.image?.url || defaultImage}
               alt={gratitude.summary}
             />

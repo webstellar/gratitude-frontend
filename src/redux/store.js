@@ -10,19 +10,27 @@ import { heroesSlice } from "./heroes/heroesSlice";
 import { myGratitudesSlice } from "./gratitudes/myGratitudeSlice";
 import { myAuthSlice } from "./auth/myAuthSlice";
 import { authPasswordSlice } from "./auth/authPasswordSlice";
+import { allUserSlice } from "./auth/allUserSlice";
+import { myHeroesSlice } from "./heroes/myHeroSlice";
+import { deleteMyHeroSlice } from "./heroes/deleteMyHeroSlice";
+import { deleteMyGratitudeSlice } from "./gratitudes/deleteMyGratitudeSlice";
 
 export default configureStore({
   reducer: {
     mygratitudes: myGratitudesSlice.reducer,
     gratitudes: gratitudesSlice.reducer,
     gratitude: gratitudeSlice.reducer,
+    myHeroes: myHeroesSlice.reducer,
     heroes: heroesSlice.reducer,
     hero: heroSlice.reducer,
     auth: authSlice.reducer,
     user: myAuthSlice.reducer,
+    users: allUserSlice.reducer,
     authGoogle: googleSlice.reducer,
     createHero: createHeroSlice.reducer,
-    createGratitude: createGratitudeSlice.reducer,
+    deleteHeroes: deleteMyHeroSlice.reducer,
     forgotPassword: authPasswordSlice.reducer,
+    createGratitude: createGratitudeSlice.reducer,
+    deleteGratitude: deleteMyGratitudeSlice.reducer,
   },
 });

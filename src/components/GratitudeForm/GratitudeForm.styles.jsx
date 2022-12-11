@@ -11,7 +11,7 @@ export const GrBox = styled(Box)(({ theme }) => ({
 
 export const GrBigTypography = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
-    fontSize: "2.5rem",
+    fontSize: "2rem",
   },
 }));
 
